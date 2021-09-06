@@ -768,6 +768,21 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@eva-design/dss@^2.0.0":
+  version "2.1.1"
+  resolved "https://registry.nlark.com/@eva-design/dss/download/@eva-design/dss-2.1.1.tgz#bd8da793e13a0dcac91d852b91ebf05e6fbdc0ee"
+  integrity sha1-vY2nk+E6DcrJHYUrkevwXm+9wO4=
+
+"@eva-design/eva@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.nlark.com/@eva-design/eva/download/@eva-design/eva-2.1.1.tgz#ad237ae76d63e7c474b3a0755c697490bbe5a4bc"
+  integrity sha1-rSN6521j58R0s6B1XGl0kLvlpLw=
+
+"@eva-design/processor@^2.0.0":
+  version "2.1.1"
+  resolved "https://registry.nlark.com/@eva-design/processor/download/@eva-design/processor-2.1.1.tgz#33a59efa52ee2d206ac4d912dae801d12f9275a8"
+  integrity sha1-M6We+lLuLSBqxNkS2ugB0S+Sdag=
+
 "@hapi/hoek@^9.0.0":
   version "9.2.0"
   resolved "https://registry.npm.taobao.org/@hapi/hoek/download/@hapi/hoek-9.2.0.tgz?cache=0&sync_timestamp=1618694570157&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40hapi%2Fhoek%2Fdownload%2F%40hapi%2Fhoek-9.2.0.tgz#f3933a44e365864f4dad5db94158106d511e8131"
@@ -1384,6 +1399,24 @@
     "@typescript-eslint/types" "4.30.0"
     eslint-visitor-keys "^2.0.0"
 
+"@ui-kitten/components@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.nlark.com/@ui-kitten/components/download/@ui-kitten/components-5.1.1.tgz#7e23b1995579778c86a2a04efab9a9750e759a33"
+  integrity sha1-fiOxmVV5d4yGoqBO+rmpdQ51mjM=
+  dependencies:
+    "@eva-design/dss" "^2.0.0"
+    "@eva-design/processor" "^2.0.0"
+    fecha "3.0.3"
+    hoist-non-react-statics "^3.2.1"
+    lodash.merge "^4.6.1"
+
+"@ui-kitten/eva-icons@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.nlark.com/@ui-kitten/eva-icons/download/@ui-kitten/eva-icons-5.1.1.tgz#5aadaa58b203d3d02192dc3be3086a1eded53b12"
+  integrity sha1-Wq2qWLID09Ahktw74whqHt7VOxI=
+  dependencies:
+    react-native-eva-icons "^1.3.1"
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.npm.taobao.org/abab/download/abab-2.0.5.tgz?cache=0&sync_timestamp=1599849993777&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fabab%2Fdownload%2Fabab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
@@ -1832,6 +1865,11 @@ big-integer@^1.6.44:
   resolved "https://registry.npm.taobao.org/big-integer/download/big-integer-1.6.48.tgz#8fd88bd1632cba4a1c8c3e3d7159f08bb95b4b9e"
   integrity sha1-j9iL0WMsukocjD49cVnwi7lbS54=
 
+boolbase@^1.0.0, boolbase@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/boolbase/download/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
+  integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
+
 bplist-creator@0.0.8:
   version "0.0.8"
   resolved "https://registry.npm.taobao.org/bplist-creator/download/bplist-creator-0.0.8.tgz#56b2a6e79e9aec3fc33bf831d09347d73794e79c"
@@ -2252,6 +2290,29 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+css-select@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.nlark.com/css-select/download/css-select-2.1.0.tgz?cache=0&sync_timestamp=1622994263502&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcss-select%2Fdownload%2Fcss-select-2.1.0.tgz#6a34653356635934a81baca68d0255432105dbef"
+  integrity sha1-ajRlM1ZjWTSoG6ymjQJVQyEF2+8=
+  dependencies:
+    boolbase "^1.0.0"
+    css-what "^3.2.1"
+    domutils "^1.7.0"
+    nth-check "^1.0.2"
+
+css-tree@^1.0.0-alpha.39:
+  version "1.1.3"
+  resolved "https://registry.npm.taobao.org/css-tree/download/css-tree-1.1.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcss-tree%2Fdownload%2Fcss-tree-1.1.3.tgz#eb4870fb6fd7707327ec95c2ff2ab09b5e8db91d"
+  integrity sha1-60hw+2/XcHMn7JXC/yqwm16NuR0=
+  dependencies:
+    mdn-data "2.0.14"
+    source-map "^0.6.1"
+
+css-what@^3.2.1:
+  version "3.4.2"
+  resolved "https://registry.nlark.com/css-what/download/css-what-3.4.2.tgz?cache=0&sync_timestamp=1622227072421&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcss-what%2Fdownload%2Fcss-what-3.4.2.tgz#ea7026fcb01777edbde52124e21f327e7ae950e4"
+  integrity sha1-6nAm/LAXd+295SEk4h8yfnrpUOQ=
+
 cssom@^0.4.4:
   version "0.4.4"
   resolved "https://registry.nlark.com/cssom/download/cssom-0.4.4.tgz?cache=0&sync_timestamp=1624218957158&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcssom%2Fdownload%2Fcssom-0.4.4.tgz#5a66cf93d2d0b661d80bf6a44fb65f5c2e4e0a10"
@@ -2419,12 +2480,38 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+dom-serializer@0:
+  version "0.2.2"
+  resolved "https://registry.nlark.com/dom-serializer/download/dom-serializer-0.2.2.tgz#1afb81f533717175d478655debc5e332d9f9bb51"
+  integrity sha1-GvuB9TNxcXXUeGVd68XjMtn5u1E=
+  dependencies:
+    domelementtype "^2.0.1"
+    entities "^2.0.0"
+
+domelementtype@1:
+  version "1.3.1"
+  resolved "https://registry.npm.taobao.org/domelementtype/download/domelementtype-1.3.1.tgz?cache=0&sync_timestamp=1617298823132&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdomelementtype%2Fdownload%2Fdomelementtype-1.3.1.tgz#d048c44b37b0d10a7f2a3d5fee3f4333d790481f"
+  integrity sha1-0EjESzew0Qp/Kj1f7j9DM9eQSB8=
+
+domelementtype@^2.0.1:
+  version "2.2.0"
+  resolved "https://registry.npm.taobao.org/domelementtype/download/domelementtype-2.2.0.tgz?cache=0&sync_timestamp=1617298823132&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdomelementtype%2Fdownload%2Fdomelementtype-2.2.0.tgz#9a0b6c2782ed6a1c7323d42267183df9bd8b1d57"
+  integrity sha1-mgtsJ4LtahxzI9QiZxg9+b2LHVc=
+
 domexception@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npm.taobao.org/domexception/download/domexception-2.0.1.tgz#fb44aefba793e1574b0af6aed2801d057529f304"
   integrity sha1-+0Su+6eT4VdLCvau0oAdBXUp8wQ=
   dependencies:
     webidl-conversions "^5.0.0"
+
+domutils@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.nlark.com/domutils/download/domutils-1.7.0.tgz?cache=0&sync_timestamp=1630109396891&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdomutils%2Fdownload%2Fdomutils-1.7.0.tgz#56ea341e834e06e6748af7a1cb25da67ea9f8c2a"
+  integrity sha1-Vuo0HoNOBuZ0ivehyyXaZ+qfjCo=
+  dependencies:
+    dom-serializer "0"
+    domelementtype "1"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -2464,6 +2551,11 @@ enquirer@^2.3.5:
   integrity sha1-Kn/l3WNKHkElqXXsmU/1RW3Dc00=
   dependencies:
     ansi-colors "^4.1.1"
+
+entities@^2.0.0:
+  version "2.2.0"
+  resolved "https://registry.nlark.com/entities/download/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
+  integrity sha1-CY3JDruD2N/6CJ1VJWs1HTTE2lU=
 
 envinfo@^7.7.2:
   version "7.8.1"
@@ -2900,6 +2992,11 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
+fecha@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/fecha/download/fecha-3.0.3.tgz#fabbd416497649a42c24d34bfa726b579203a1e2"
+  integrity sha1-+rvUFkl2SaQsJNNL+nJrV5IDoeI=
+
 file-entry-cache@^6.0.1:
   version "6.0.1"
   resolved "https://registry.nlark.com/file-entry-cache/download/file-entry-cache-6.0.1.tgz#211b2dd9659cb0394b073e7323ac3c933d522027"
@@ -3223,6 +3320,13 @@ hermes-profile-transformer@^0.0.6:
   integrity sha1-vQ9ezO2oDdDdquRDRpqyb7OPwns=
   dependencies:
     source-map "^0.7.3"
+
+hoist-non-react-statics@^3.2.1:
+  version "3.3.2"
+  resolved "https://registry.npm.taobao.org/hoist-non-react-statics/download/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
+  integrity sha1-7OCsr3HWLClpwuxZ/v9CpLGoW0U=
+  dependencies:
+    react-is "^16.7.0"
 
 html-encoding-sniffer@^2.0.1:
   version "2.0.1"
@@ -4369,7 +4473,7 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.nlark.com/lodash.debounce/download/lodash.debounce-4.0.8.tgz?cache=0&sync_timestamp=1618847031591&other_urls=https%3A%2F%2Fregistry.nlark.com%2Flodash.debounce%2Fdownload%2Flodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
-lodash.merge@^4.6.2:
+lodash.merge@^4.6.1, lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.nlark.com/lodash.merge/download/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha1-VYqlO0O2YeGSWgr9+japoQhf5Xo=
@@ -4452,6 +4556,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+mdn-data@2.0.14:
+  version "2.0.14"
+  resolved "https://registry.nlark.com/mdn-data/download/mdn-data-2.0.14.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fmdn-data%2Fdownload%2Fmdn-data-2.0.14.tgz#7113fc4281917d63ce29b43446f701e68c25ba50"
+  integrity sha1-cRP8QoGRfWPOKbQ0RvcB5owlulA=
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -4930,6 +5039,13 @@ npm-run-path@^4.0.1:
   dependencies:
     path-key "^3.0.0"
 
+nth-check@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.nlark.com/nth-check/download/nth-check-1.0.2.tgz#b2bd295c37e3dd58a3bf0700376663ba4d9cf05c"
+  integrity sha1-sr0pXDfj3VijvwcAN2Zjuk2c8Fw=
+  dependencies:
+    boolbase "~1.0.0"
+
 nullthrows@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/nullthrows/download/nullthrows-1.1.1.tgz#7818258843856ae971eae4208ad7d7eb19a431b1"
@@ -5369,7 +5485,7 @@ react-devtools-core@^4.6.0:
   resolved "https://registry.nlark.com/react-is/download/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha1-5pHUqOnHiTZWVVOas3J2Kw77VPA=
 
-react-is@^16.8.1:
+react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.nlark.com/react-is/download/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=
@@ -5382,6 +5498,19 @@ react-native-codegen@^0.0.7:
     flow-parser "^0.121.0"
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
+
+react-native-eva-icons@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.nlark.com/react-native-eva-icons/download/react-native-eva-icons-1.3.1.tgz#1e6e019b0fd3cb1669db50bd6bbdaa6d89327593"
+  integrity sha1-Hm4Bmw/TyxZp21C9a72qbYkydZM=
+
+react-native-svg@^12.1.1:
+  version "12.1.1"
+  resolved "https://registry.nlark.com/react-native-svg/download/react-native-svg-12.1.1.tgz?cache=0&sync_timestamp=1628881617835&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact-native-svg%2Fdownload%2Freact-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
+  integrity sha1-XykkELi8wHu8UrLafOsiyvW8qu4=
+  dependencies:
+    css-select "^2.1.0"
+    css-tree "^1.0.0-alpha.39"
 
 react-native@0.65.1:
   version "0.65.1"
