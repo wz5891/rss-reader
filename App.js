@@ -7,6 +7,9 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import RssListScreen from './src/views/rssListScreen';
+import CollectScreen from './src/views/collectScreen';
+import SettingScreen from './src/views/settingScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -21,25 +24,6 @@ const CollectIcon = (props) => (
 
 const SettingIcon = (props) => (
   <Icon {...props} name='settings-2-outline' />
-);
-
-const RssListScreen = () => (
-  <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text category='h1'>RSSLIST</Text>
-  </Layout>
-);
-
-
-const CollectScreen = () => (
-  <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text category='h1'>COLLECT</Text>
-  </Layout>
-);
-
-const SettingScreen = () => (
-  <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text category='h1'>SETTING</Text>
-  </Layout>
 );
 
 const StarIcon = (props) => (
