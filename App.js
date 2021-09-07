@@ -42,19 +42,53 @@ const SettingScreen = () => (
   </Layout>
 );
 
+const StarIcon = (props) => (
+  <Icon {...props} name='star' />
+);
+
+function RssTopRight() {
+  return (
+    <Layout style={{ display: 'flex', flexDirection: 'row' }}>
+      <Icon
+        style={{
+          width: 24,
+          height: 24,
+          marginRight: 10
+        }}
+        fill='#8F9BB3'
+        name='sync-outline'
+      />
+      <Icon
+        style={{
+          width: 24,
+          height: 24,
+          marginRight: 10
+        }}
+        fill='#8F9BB3'
+        name='plus-outline'
+      />
+    </Layout>
+  );
+}
+
 const BottomTabBar = ({ navigation, state }) => (
   <BottomNavigation
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
     <BottomNavigationTab title='订阅' icon={RssListIcon} />
     <BottomNavigationTab title='收藏' icon={CollectIcon} />
-    < BottomNavigationTab title='设置' icon={SettingIcon} />
+    <BottomNavigationTab title='设置' icon={SettingIcon} />
   </BottomNavigation>
 );
 
 const TabNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
-    <Screen name="订阅" component={RssListScreen} />
+    <Screen name="RssList" component={RssListScreen} options={{
+      title: '订阅',
+      headerRight: () => (
+        <RssTopRight></RssTopRight>
+      ),
+    }} />
     <Screen name='收藏' component={CollectScreen} />
     <Screen name='设置' component={SettingScreen} />
   </Navigator>
