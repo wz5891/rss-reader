@@ -5,7 +5,7 @@ function initialState() {
     return fromJS({
         lang: 'en',
         fontSize: 'normal',
-        theme: 'day'
+        isNight: false
     });
 }
 
@@ -22,8 +22,8 @@ reducer.prototype[actionType.setting.setLanguage] = (state, action) => {
     return state.set('lang', action.payload);
 }
 
-reducer.prototype[actionType.setting.setTheme] = (state, action) => {
-    return state.set('theme', action.payload);
+reducer.prototype[actionType.setting.setIsNight] = (state, action) => {
+    return state.set('isNight', action.payload);
 }
 
 reducer.prototype[actionType.setting.setFontSize] = (state, action) => {

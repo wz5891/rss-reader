@@ -11,6 +11,8 @@ import RssListScreen from './src/views/rssListScreen';
 import CollectScreen from './src/views/collectScreen';
 import SettingScreen from './src/views/settingScreen';
 
+import { connect } from 'react-redux';
+
 const { Navigator, Screen } = createBottomTabNavigator();
 
 
@@ -78,11 +80,19 @@ const TabNavigator = () => (
   </Navigator>
 );
 
-export default () => (
+const App = (props) => (
   <NavigationContainer>
     <IconRegistry icons={EvaIconsPack} />
-    <ApplicationProvider {...eva} theme={eva.light}>
+    <ApplicationProvider {...eva} theme={props.setting.get('isNight') ? eva.dark : eva.light}>
       <TabNavigator />
     </ApplicationProvider>
   </NavigationContainer>
 );
+
+
+const mapStateToProps = (state) => {
+  const { setting } = state
+  return { setting }
+};
+
+export default connect(mapStateToProps)(App);

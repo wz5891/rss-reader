@@ -3,7 +3,7 @@ import { ActionType } from 'redux-promise-middleware';
 export const actionType = {
     setting: {
         setLanguage: 'SET_LANGUAGE',
-        setTheme: 'SET_THEME',
+        setIsNight: 'SET_ISNIGHT',
         setFontSize: 'SET_FONTSIZE',
     },
     page: {

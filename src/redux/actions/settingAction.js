@@ -7,10 +7,10 @@ export function setLanguage(lang) {
     }
 }
 
-export function setTheme(theme) {
+export function setIsNight(isNight) {
     return {
-        type: actionType.setting.setTheme,
-        payload: theme
+        type: actionType.setting.setIsNight,
+        payload: isNight
     }
 }
 
