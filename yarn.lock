@@ -5643,6 +5643,13 @@ react-native-localize@^2.1.4:
   resolved "https://registry.nlark.com/react-native-localize/download/react-native-localize-2.1.4.tgz#d4a41d9e03908c739e436dba9499b9e761b4e2f6"
   integrity sha1-1KQdngOQjHOeQ226lJm552G04vY=
 
+react-native-rss-parser@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.nlark.com/react-native-rss-parser/download/react-native-rss-parser-1.5.1.tgz#4221d578477dc267e228dd73219b0b29ab3a4148"
+  integrity sha1-QiHVeEd9wmfiKN1zIZsLKas6QUg=
+  dependencies:
+    xmldom "^0.3.0"
+
 react-native-safe-area-context@^3.3.2:
   version "3.3.2"
   resolved "https://registry.nlark.com/react-native-safe-area-context/download/react-native-safe-area-context-3.3.2.tgz#9549a2ce580f2374edb05e49d661258d1b8bcaed"
@@ -6999,6 +7006,11 @@ xmldoc@^1.1.2:
   integrity sha1-ZmbgKf4lRw1ZnNMOI/8NHtUEZtc=
   dependencies:
     sax "^1.2.1"
+
+xmldom@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.npm.taobao.org/xmldom/download/xmldom-0.3.0.tgz#e625457f4300b5df9c2e1ecb776147ece47f3e5a"
+  integrity sha1-5iVFf0MAtd+cLh7Ld2FH7OR/Plo=
 
 xtend@~4.0.1:
   version "4.0.2"
