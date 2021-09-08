@@ -5638,6 +5638,11 @@ react-native-eva-icons@^1.3.1:
   resolved "https://registry.nlark.com/react-native-eva-icons/download/react-native-eva-icons-1.3.1.tgz#1e6e019b0fd3cb1669db50bd6bbdaa6d89327593"
   integrity sha1-Hm4Bmw/TyxZp21C9a72qbYkydZM=
 
+react-native-localize@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.nlark.com/react-native-localize/download/react-native-localize-2.1.4.tgz#d4a41d9e03908c739e436dba9499b9e761b4e2f6"
+  integrity sha1-1KQdngOQjHOeQ226lJm552G04vY=
+
 react-native-safe-area-context@^3.3.2:
   version "3.3.2"
   resolved "https://registry.nlark.com/react-native-safe-area-context/download/react-native-safe-area-context-3.3.2.tgz#9549a2ce580f2374edb05e49d661258d1b8bcaed"
@@ -5649,6 +5654,11 @@ react-native-screens@^3.6.0:
   integrity sha1-BUr3KOUMBr/2s7T6e0tla3DyR80=
   dependencies:
     warn-once "^0.1.0"
+
+react-native-sqlite-storage@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.nlark.com/react-native-sqlite-storage/download/react-native-sqlite-storage-5.0.0.tgz#fb015c928b59d3000360fb0774a99545e7a695d6"
+  integrity sha1-+wFckotZ0wADYPsHdKmVReemldY=
 
 react-native-svg@^12.1.1:
   version "12.1.1"

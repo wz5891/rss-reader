@@ -6,7 +6,6 @@ import { setIsNight } from '../redux/actions/settingAction';
 
 function SettingScreen(props) {
     const onIsNightChange = (isChecked) => {
-        console.log(isChecked);
         props.dispatch(
             setIsNight(isChecked)
         );

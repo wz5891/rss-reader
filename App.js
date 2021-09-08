@@ -12,6 +12,7 @@ import CollectScreen from './src/views/collectScreen';
 import SettingScreen from './src/views/settingScreen';
 
 import { connect } from 'react-redux';
+import { getDatabase } from './src/db/Database';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -31,6 +32,9 @@ const SettingIcon = (props) => (
 const StarIcon = (props) => (
   <Icon {...props} name='star' />
 );
+
+
+
 
 function RssTopRight() {
   return (
@@ -80,14 +84,19 @@ const TabNavigator = () => (
   </Navigator>
 );
 
-const App = (props) => (
-  <NavigationContainer>
+const App = (props) => {
+  React.useEffect(async () => {
+    await getDatabase();
+  }, [])
+
+
+  return (<NavigationContainer>
     <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={props.setting.get('isNight') ? eva.dark : eva.light}>
       <TabNavigator />
     </ApplicationProvider>
-  </NavigationContainer>
-);
+  </NavigationContainer>);
+}
 
 
 const mapStateToProps = (state) => {
