@@ -50,7 +50,7 @@ export const getItemById = async (itemId) => {
             title: item.title,
             link: item.link,
             description: item.description,
-            publishedTime: item.publishedTime,
+            publishedTime: item.published_time,
             content: item.content
         });
     } else {
