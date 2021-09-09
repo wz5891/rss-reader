@@ -1,29 +1,41 @@
 import { Layout, Text } from '@ui-kitten/components';
 import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import * as rssParser from 'react-native-rss-parser';
+import { pageQueryChannel } from '../redux/reducers/channelAction';
 import AddChannelScreen from './AddChannelScreen';
 
 const ChannelListScreen = (props) => {
+
     useEffect(() => {
-        fetch('https://www.ruanyifeng.com/blog/atom.xml')
-            .then((response) => response.text())
-            .then((responseData) => rssParser.parse(responseData))
-            .then((rss) => {
-                console.log(rss.title);
-                console.log(rss.items.length);
-                console.log(JSON.stringify(rss));
-            });
-    }, [])
+        props.dispatch(pageQueryChannel(1, 10));
+    }, []);
+
+    const renderItem = ({ item }) => {
+        console.log('===>', item);
+        // return <Text>{item.get('title')}</Text>;
+
+        return <Layout style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            borderWidth: 1,
+            padding: 10
+        }}>
+            <Text>{item.get('title')}</Text>
+            <Text>{item.get('description')}</Text>
+        </Layout>
+    }
 
     return (
-        <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text category='h1'>RSSLIST</Text>
-
-            <Text>
-                {props.channel.get('channelList')}
-            </Text>
+        <Layout style={{ flex: 1 }}>
+            <FlatList
+                data={props.channel.get('channelList').toArray()}
+                renderItem={renderItem}
+                keyExtractor={(item) => {
+                    return item.get('id')
+                }}
+            />
 
             <AddChannelScreen />
         </Layout>

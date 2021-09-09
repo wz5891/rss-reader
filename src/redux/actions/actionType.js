@@ -8,7 +8,8 @@ export const actionType = {
     },
     channel: {
         setAddChannelModalVisble: 'SET_ADD_CHANNEL_MODAL_VISBLE',
-        addChannel: 'ADD_CHANNEL',
+        setChannelList: 'SET_CHANNEL_LIST',
+        pageQueryChannel: 'PAGE_QUERY_CHANNEL'
     },
     page: {
         pageSearchSetUserWord: 'PAGESEARCH_SETUSERWORD',

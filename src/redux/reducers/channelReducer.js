@@ -4,7 +4,7 @@ import { fromJS } from 'immutable';
 function initialState() {
     return fromJS({
         channelModalVisble: false,
-        channelList: ['a']
+        channelList: []
     });
 }
 
@@ -21,6 +21,6 @@ reducer.prototype[actionType.channel.setAddChannelModalVisble] = (state, action)
     return state.set('channelModalVisble', action.payload);
 }
 
-reducer.prototype[actionType.channel.addChannel] = (state, action) => {
-    return state.set('channelList', state.get('channelList').push(action.payload));
+reducer.prototype[actionType.channel.setChannelList] = (state, action) => {
+    return state.set('channelList', fromJS(action.payload));
 }
