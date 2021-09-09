@@ -7,9 +7,9 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import RssListScreen from './src/views/rssListScreen';
-import CollectScreen from './src/views/collectScreen';
-import SettingScreen from './src/views/settingScreen';
+import ChannelListScreen from './src/views/ChannelListScreen';
+import FavoriteScreen from './src/views/FavoriteScreen';
+import SettingScreen from './src/views/SettingScreen';
 
 import { connect } from 'react-redux';
 import { getDatabase } from './src/db/Database';
@@ -17,23 +17,17 @@ import { getDatabase } from './src/db/Database';
 const { Navigator, Screen } = createBottomTabNavigator();
 
 
-const RssListIcon = (props) => (
+const ChannelIcon = (props) => (
   <Icon {...props} name='cast-outline' />
 );
 
-const CollectIcon = (props) => (
+const FavoriteIcon = (props) => (
   <Icon {...props} name='star-outline' />
 );
 
 const SettingIcon = (props) => (
   <Icon {...props} name='settings-2-outline' />
 );
-
-const StarIcon = (props) => (
-  <Icon {...props} name='star' />
-);
-
-
 
 
 function RssTopRight() {
@@ -65,21 +59,21 @@ const BottomTabBar = ({ navigation, state }) => (
   <BottomNavigation
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
-    <BottomNavigationTab title='订阅' icon={RssListIcon} />
-    <BottomNavigationTab title='收藏' icon={CollectIcon} />
+    <BottomNavigationTab title='订阅' icon={ChannelIcon} />
+    <BottomNavigationTab title='收藏' icon={FavoriteIcon} />
     <BottomNavigationTab title='设置' icon={SettingIcon} />
   </BottomNavigation>
 );
 
 const TabNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
-    <Screen name="RssList" component={RssListScreen} options={{
+    <Screen name="RssList" component={ChannelListScreen} options={{
       title: '订阅',
       headerRight: () => (
         <RssTopRight></RssTopRight>
       ),
     }} />
-    <Screen name='收藏' component={CollectScreen} />
+    <Screen name='收藏' component={FavoriteScreen} />
     <Screen name='设置' component={SettingScreen} />
   </Navigator>
 );

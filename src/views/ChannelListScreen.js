@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import * as rssParser from 'react-native-rss-parser';
 
-const RssListScreen = (props) => {
+const ChannelListScreen = (props) => {
     useEffect(() => {
         fetch('https://www.ruanyifeng.com/blog/atom.xml')
             .then((response) => response.text())
@@ -31,4 +31,4 @@ const mapStateToProps = (state) => {
     return { subjects }
 };
 
-export default connect(mapStateToProps)(RssListScreen);
+export default connect(mapStateToProps)(ChannelListScreen);
