@@ -6,6 +6,10 @@ export const actionType = {
         setIsNight: 'SET_ISNIGHT',
         setFontSize: 'SET_FONTSIZE',
     },
+    channel: {
+        setAddChannelModalVisble: 'SET_ADD_CHANNEL_MODAL_VISBLE',
+        addChannel: 'ADD_CHANNEL',
+    },
     page: {
         pageSearchSetUserWord: 'PAGESEARCH_SETUSERWORD',
         pageSearchSetError: 'PAGESEARCH_SETERROR',

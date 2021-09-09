@@ -10,9 +10,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ChannelListScreen from './src/views/ChannelListScreen';
 import FavoriteScreen from './src/views/FavoriteScreen';
 import SettingScreen from './src/views/SettingScreen';
+import { getHeaderTitle } from '@react-navigation/elements';
 
 import { connect } from 'react-redux';
 import { getDatabase } from './src/db/Database';
+import ChannelListHeader from './src/views/header/ChannelListHeader';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -29,6 +31,27 @@ const SettingIcon = (props) => (
   <Icon {...props} name='settings-2-outline' />
 );
 
+
+const header = ({ navigation, route, options }) => {
+  let name = route.name;
+
+  if (name == 'ChannelList') {
+    return <ChannelListHeader />;
+  }
+
+  const title = getHeaderTitle(options, route.name);
+  console.log(route.name);
+
+  return <MyHeader title={title} style={options.headerStyle} />;
+};
+
+const MyHeader = ({ title, style }) => {
+  return (
+    <Layout>
+      <Text>{title}
+      </Text>
+    </Layout>);
+}
 
 function RssTopRight() {
   return (
@@ -66,13 +89,15 @@ const BottomTabBar = ({ navigation, state }) => (
 );
 
 const TabNavigator = () => (
-  <Navigator tabBar={props => <BottomTabBar {...props} />}>
-    <Screen name="RssList" component={ChannelListScreen} options={{
+  <Navigator tabBar={props => <BottomTabBar {...props} />} screenOptions={{
+    header: header
+  }}  >
+    <Screen name="ChannelList" component={ChannelListScreen} options={{
       title: '订阅',
       headerRight: () => (
         <RssTopRight></RssTopRight>
       ),
-    }} />
+    }} headerShown={false} />
     <Screen name='收藏' component={FavoriteScreen} />
     <Screen name='设置' component={SettingScreen} />
   </Navigator>

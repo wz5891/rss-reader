@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import * as rssParser from 'react-native-rss-parser';
+import AddChannelScreen from './AddChannelScreen';
 
 const ChannelListScreen = (props) => {
     useEffect(() => {
@@ -19,6 +20,12 @@ const ChannelListScreen = (props) => {
     return (
         <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text category='h1'>RSSLIST</Text>
+
+            <Text>
+                {props.channel.get('channelList')}
+            </Text>
+
+            <AddChannelScreen />
         </Layout>
     );
 }
@@ -27,8 +34,8 @@ const styles = StyleSheet.create({});
 
 
 const mapStateToProps = (state) => {
-    const { subjects } = state
-    return { subjects }
+    const { channel } = state
+    return { channel }
 };
 
 export default connect(mapStateToProps)(ChannelListScreen);

@@ -1,3 +1,5 @@
+export const CONFIG_LANGUAGE = "language";
+
 const configDataExists = async (db, configKey) => {
   let configValue = await configDataExists(db, configKey);
   return configValue ? false : true;
