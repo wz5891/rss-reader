@@ -1,4 +1,4 @@
-import { fetchAndSaveRss, fetchRss, pageListFromDb, saveChannelToDb } from '../../api/channel';
+import { fetchAndSaveRss, fetchRss, getChannelById, pageListFromDb, saveChannelToDb } from '../../api/channel';
 import { saveItemToDb } from '../../api/item';
 import { actionType } from '../actions/actionType';
 
@@ -13,15 +13,7 @@ export function setAddChannelModalVisble(visble) {
 export function addChannel(url) {
     return function (dispatch) {
         saveChannel(url, dispatch).then(() => {
-
         });
-
-        // fetchAndSaveRss(url).then(channel => {
-        //     dispatch({
-        //         type: actionType.channel.addChannel,
-        //         payload: channel
-        //     });
-        // });
     }
 }
 
@@ -35,6 +27,25 @@ export function pageQueryChannel(page, size) {
         });
     }
 }
+
+export function setCurrentChannelId(channelId) {
+    return {
+        type: actionType.channel.setCurrentChannelId,
+        payload: channelId
+    };
+}
+
+export function setCurrentChannel(channelId) {
+    return function (dispatch) {
+        getChannelById(channelId).then(data => {
+            dispatch({
+                type: actionType.channel.setCurrentChannel,
+                payload: data
+            })
+        });
+    }
+}
+
 
 const saveChannel = async (url, dispatch) => {
     let rss = await fetchRss(url);

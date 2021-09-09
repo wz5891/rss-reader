@@ -58,3 +58,24 @@ export const pageListFromDb = async (page, size) => {
         return [];
     }
 }
+
+
+export const getChannelById = async (channelId) => {
+    let db = await getDatabase();
+    let result = await db.executeSql(`SELECT * FROM t_channel WHERE id= ${channelId}`);
+
+    let rows = result[0].rows;
+    let length = rows.length;
+    if (length > 0) {
+        let item = rows.item(0);
+        return ({
+            id: item.id,
+            title: item.title,
+            link: item.link,
+            description: item.description,
+            lastUpdated: item.lastUpdated
+        });
+    } else {
+        return [];
+    }
+}

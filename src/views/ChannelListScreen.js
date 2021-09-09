@@ -1,8 +1,9 @@
 import { Layout, Text } from '@ui-kitten/components';
+import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { pageQueryChannel } from '../redux/reducers/channelAction';
+import { pageQueryChannel, setCurrentChannelId } from '../redux/actions/channelAction';
 import AddChannelScreen from './AddChannelScreen';
 
 const ChannelListScreen = (props) => {
@@ -12,19 +13,24 @@ const ChannelListScreen = (props) => {
     }, []);
 
     const renderItem = ({ item }) => {
-        console.log('===>', item);
-        // return <Text>{item.get('title')}</Text>;
-
-        return <Layout style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'row',
-            borderWidth: 1,
-            padding: 10
+        let id = item.get('id');
+        return <TouchableWithoutFeedback onPress={() => {
+            props.dispatch(setCurrentChannelId(id));
+            props.navigation.navigate('ItemListScreen');
         }}>
-            <Text>{item.get('title')}</Text>
-            <Text>{item.get('description')}</Text>
-        </Layout>
+            <Layout style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'row',
+                borderWidth: 1,
+                padding: 10
+            }}>
+
+                <Text>{item.get('title')}</Text>
+                <Text>{item.get('description')}</Text>
+
+            </Layout>
+        </TouchableWithoutFeedback>
     }
 
     return (

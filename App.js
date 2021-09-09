@@ -13,11 +13,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/views/HomeScreen';
 import ItemListScreen from './src/views/ItemListScreen';
 
-
-
-
-
-
 const Stack = createStackNavigator();
 const StackNavigator = () => {
   return <Stack.Navigator screenOptions={{

@@ -9,7 +9,12 @@ export const actionType = {
     channel: {
         setAddChannelModalVisble: 'SET_ADD_CHANNEL_MODAL_VISBLE',
         setChannelList: 'SET_CHANNEL_LIST',
-        pageQueryChannel: 'PAGE_QUERY_CHANNEL'
+        pageQueryChannel: 'PAGE_QUERY_CHANNEL',
+        setCurrentChannelId: 'SET_CURRENT_CHANNEL_ID',
+        setCurrentChannel: 'SET_CURRENT_CHANNEL'
+    },
+    item: {
+        setItemList: 'SET_ITEM_LIST',
     },
     page: {
         pageSearchSetUserWord: 'PAGESEARCH_SETUSERWORD',

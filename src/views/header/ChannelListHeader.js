@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { ApplicationProvider, Layout, Text, Icon, IconRegistry, Card, BottomNavigation, BottomNavigationTab, Modal } from '@ui-kitten/components';
 import { connect } from 'react-redux';
-import { setAddChannelModalVisble } from '../../redux/reducers/channelAction';
+import { setAddChannelModalVisble } from '../../redux/actions/channelAction';
 
 const ChannelListHeader = (props) => {
     const addChannel = () => {

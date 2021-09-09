@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Layout, Text, Icon, Input, Card, Modal, Button, Spinner } from '@ui-kitten/components';
 import { connect } from 'react-redux';
-import { addChannel, setAddChannelModalVisble } from '../redux/reducers/channelAction';
+import { addChannel, setAddChannelModalVisble } from '../redux/actions/channelAction';
 const AddChannelScreen = (props) => {
     const [url, setUrl] = useState('https://www.ruanyifeng.com/blog/atom.xml');
 
