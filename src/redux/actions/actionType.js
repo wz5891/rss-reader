@@ -15,6 +15,8 @@ export const actionType = {
     },
     item: {
         setItemList: 'SET_ITEM_LIST',
+        setCurrentItemlId: 'SET_CURRENT_ITEM_ID',
+        setCurrentItem: 'SET_CURRENT_ITEM'
     },
     page: {
         pageSearchSetUserWord: 'PAGESEARCH_SETUSERWORD',

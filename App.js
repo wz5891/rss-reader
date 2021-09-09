@@ -12,6 +12,7 @@ import { getDatabase } from './src/db/Database';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/views/HomeScreen';
 import ItemListScreen from './src/views/ItemListScreen';
+import ItemDetailScreen from './src/views/ItemDetailScreen';
 
 const Stack = createStackNavigator();
 const StackNavigator = () => {
@@ -25,6 +26,10 @@ const StackNavigator = () => {
     <Stack.Screen
       name="ItemListScreen"
       component={ItemListScreen}
+    />
+    <Stack.Screen
+      name="ItemDetailScreen"
+      component={ItemDetailScreen}
     />
   </Stack.Navigator>
 }

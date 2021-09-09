@@ -1,4 +1,4 @@
-import { pageListFromDb } from '../../api/item';
+import { getItemById, pageListFromDb } from '../../api/item';
 import { actionType } from './actionType';
 
 
@@ -13,3 +13,23 @@ export function pageQueryItem(page, size, channelId) {
         });
     }
 }
+
+
+export function setCurrentItemlId(channelId) {
+    return {
+        type: actionType.item.setCurrentItemlId,
+        payload: channelId
+    };
+}
+
+export function setCurrentItem(channelId) {
+    return function (dispatch) {
+        getItemById(channelId).then(data => {
+            dispatch({
+                type: actionType.item.setCurrentItem,
+                payload: data
+            })
+        });
+    }
+}
+

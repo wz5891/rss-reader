@@ -3,7 +3,9 @@ import { fromJS } from 'immutable';
 
 function initialState() {
     return fromJS({
-        itemList: []
+        itemList: [],
+        currentItemId: undefined,
+        currentItem: {},
     });
 }
 
@@ -18,4 +20,12 @@ export default function reducer(state = initialState(), action) {
 
 reducer.prototype[actionType.item.setItemList] = (state, action) => {
     return state.set('itemList', fromJS(action.payload));
+}
+
+reducer.prototype[actionType.item.setCurrentItemlId] = (state, action) => {
+    return state.set('currentItemId', action.payload).set('currentItem', fromJS({}));
+}
+
+reducer.prototype[actionType.item.setCurrentItem] = (state, action) => {
+    return state.set('currentItem', fromJS(action.payload));
 }

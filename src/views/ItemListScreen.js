@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text } from '@ui-kitten/components';
 import { FlatList, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
-import { pageQueryItem } from '../redux/actions/itemAction';
+import { pageQueryItem, setCurrentItemlId } from '../redux/actions/itemAction';
 import { setCurrentChannel } from '../redux/actions/channelAction';
 
 const BackIcon = (props) => (
@@ -62,10 +62,10 @@ const ItemListScreen = (props) => {
     );
 
     const renderItem = ({ item }) => {
+        let id = item.get('id');
         return <TouchableWithoutFeedback onPress={() => {
-            props.navigation.navigate('ItemListScreen', {
-                id: item.get('id'),
-            });
+            props.dispatch(setCurrentItemlId(id));
+            props.navigation.navigate('ItemDetailScreen');
         }}>
             <Layout style={{
                 flex: 1,
