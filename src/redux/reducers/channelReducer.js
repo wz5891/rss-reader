@@ -7,6 +7,11 @@ function initialState() {
         channelList: [],
         currentChannelId: undefined,
         currentChannel: {},
+
+        add: {
+            doing: false,
+            errorMsg: ''
+        }
     });
 }
 
@@ -34,4 +39,20 @@ reducer.prototype[actionType.channel.setCurrentChannelId] = (state, action) => {
 
 reducer.prototype[actionType.channel.setCurrentChannel] = (state, action) => {
     return state.set('currentChannel', fromJS(action.payload));
+}
+
+
+reducer.prototype[actionType.channel.channelAddPending] = (state, action) => {
+    return state.setIn('add.doing'.split('.'), true)
+        .setIn('add.errorMsg'.split('.'), '');
+}
+
+reducer.prototype[actionType.channel.channelAddFulfilled] = (state, action) => {
+    return state.setIn('add.doing'.split('.'), false)
+        .setIn('add.errorMsg'.split('.'), '');
+}
+
+reducer.prototype[actionType.channel.channelAddRejected] = (state, action) => {
+    return state.setIn('add.doing'.split('.'), false)
+        .setIn('add.errorMsg'.split('.'), action.payload);
 }

@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Layout, Text, Icon, Input, Card, Modal, Button, Spinner } from '@ui-kitten/components';
 import { connect } from 'react-redux';
 import { addChannel, setAddChannelModalVisble } from '../redux/actions/channelAction';
 const AddChannelScreen = (props) => {
     const [url, setUrl] = useState('https://www.ruanyifeng.com/blog/atom.xml');
 
-
-    const LoadingIndicator = (props) => (
-        <Layout style={[props.style, styles.indicator]}>
-            <Spinner size='small' />
-        </Layout>
-    );
+    const LoadingIndicator = () => {
+        if (props.channel.get('add').get('doing')) {
+            return <Spinner size='small' status='control' />;
+        } else {
+            return null;
+        }
+    }
 
     const closeModal = () => {
         props.dispatch(setAddChannelModalVisble(false));
@@ -22,35 +23,45 @@ const AddChannelScreen = (props) => {
             alert('RSS地址不能为空');
             return;
         }
-
         props.dispatch(addChannel(url));
-
-        closeModal();
     }
 
+    const Header = (props) => (
+        <View {...props}>
+            <Text category='h6'>新建订阅</Text>
+        </View>
+    );
+
+    const Footer = (props) => (
+        <View {...props} style={[props.style, styles.footerContainer]}>
+            <Button
+                style={styles.footerControl}
+                size='small'
+                status='basic' onPress={closeModal}>
+                取消
+            </Button>
+            <Button
+                style={styles.footerControl}
+                size='small'
+                onPress={addRss} accessoryLeft={LoadingIndicator}>
+                保存
+            </Button>
+        </View>
+    );
 
     return (
-        <Modal visible={props.channel.get('channelModalVisble')} onBackdropPress={closeModal} style={styles.modal} backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-            <Card disabled={false}>
-                <Text>请输入RSS地址</Text>
-
+        <Modal visible={props.channel.get('channelModalVisble')} style={styles.modal} backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <Card disabled={false} header={Header} footer={Footer}>
                 <Input
-                    placeholder='RSS地址'
+                    size="medium"
+                    placeholder='请输入RSS地址'
                     value={url}
                     onChangeText={nextValue => setUrl(nextValue)}
                 />
 
-
-                <Button style={styles.button}
-                    appearance='outline'
-                    accessoryLeft={LoadingIndicator}
-                    size="small"
-                    status="primary"
-                    onPress={addRss}
-                >
-                    确定
-                </Button>
-
+                <Text style={{
+                    marginTop: 10
+                }} status='warning'>{props.channel.get('add').get('errorMsg')}</Text>
             </Card>
         </Modal >
     );
@@ -58,14 +69,15 @@ const AddChannelScreen = (props) => {
 
 const styles = StyleSheet.create({
     modal: {
-        width: '90%'
+        width: '95%'
     },
-    button: {
-        marginTop: 5,
+
+    footerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
     },
-    indicator: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    footerControl: {
+        marginHorizontal: 2,
     },
 })
 

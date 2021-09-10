@@ -48,31 +48,49 @@ export function setCurrentChannel(channelId) {
 
 
 const saveChannel = async (url, dispatch) => {
-    let rss = await fetchRss(url);
-    let channelId = await saveChannelToDb(rss);
+    dispatch({
+        type: actionType.channel.channelAddPending,
+        payload: null
+    });
 
-    if (rss.items && rss.items.length > 0) {
-        for (let i = 0; i < rss.items.length; i++) {
-            let item = rss.items[i];
-            console.log('开始保存item...');
+    try {
+        let rss = await fetchRss(url);
+        let channelId = await saveChannelToDb(rss);
 
-            await saveItemToDb({
-                channelId: channelId,
-                title: item.title,
-                link: item.links[0].url,
-                description: item.description,
-                lastUpdated: item.published,
-                content: item.content
-            });
+        if (rss.items && rss.items.length > 0) {
+            for (let i = 0; i < rss.items.length; i++) {
+                let item = rss.items[i];
+                console.log('开始保存item...');
+
+                await saveItemToDb({
+                    channelId: channelId,
+                    title: item.title,
+                    link: item.links[0].url,
+                    description: item.description,
+                    lastUpdated: item.published,
+                    content: item.content
+                });
+            }
+
         }
 
+        dispatch({
+            type: actionType.channel.channelAddFulfilled,
+            payload: null
+        });
+
+        dispatch({
+            type: actionType.channel.setAddChannelModalVisble,
+            payload: false
+        });
+    } catch (e) {
+        dispatch({
+            type: actionType.channel.channelAddRejected,
+            payload: e.message
+        });
     }
 
-    let list = await pageListFromDb(1, 10);
-
-    dispatch({
-        type: actionType.channel.setChannelList,
-        payload: list
-    });
+    // 刷新页面
+    pageQueryChannel(1, 10);
 }
 

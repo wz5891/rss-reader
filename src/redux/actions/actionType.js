@@ -11,7 +11,11 @@ export const actionType = {
         setChannelList: 'SET_CHANNEL_LIST',
         pageQueryChannel: 'PAGE_QUERY_CHANNEL',
         setCurrentChannelId: 'SET_CURRENT_CHANNEL_ID',
-        setCurrentChannel: 'SET_CURRENT_CHANNEL'
+        setCurrentChannel: 'SET_CURRENT_CHANNEL',
+
+        channelAddPending: `CHANNEL_ADD${ActionType.Pending}`,
+        channelAddFulfilled: `CHANNEL_ADD${ActionType.Fulfilled}`,
+        channelAddRejected: `CHANNEL_ADD${ActionType.Rejected}`,
     },
     item: {
         setItemList: 'SET_ITEM_LIST',

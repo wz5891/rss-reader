@@ -22,6 +22,14 @@ export const fetchRss = async (url) => {
 export const saveChannelToDb = async ({ title, link, description, lastUpdated }) => {
     let db = await getDatabase();
 
+    // 检查是否已经添加过
+    let result = await db.executeSql(`SELECT count(1) as size FROM t_channel WHERE link = '${link.trim()}'`);
+    if (result[0].rows.item(0).size > 0) {
+        throw new Error('当前订阅已经存在，请不要重复添加');
+    }
+
+    debugger
+
     let id = null;
     await db.transaction(async (tx) => {
         let r = await tx.executeSql(
