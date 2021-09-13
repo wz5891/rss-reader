@@ -1,15 +1,15 @@
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, Icon } from '@ui-kitten/components';
 import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 import React, { useEffect } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { pageQueryChannel, setCurrentChannelId } from '../redux/actions/channelAction';
+import { pageQuery, refresh, setCurrentChannelId } from '../redux/actions/channelAction';
 import AddChannelScreen from './AddChannelScreen';
 
 const ChannelListScreen = (props) => {
-
     useEffect(() => {
-        props.dispatch(pageQueryChannel(1, 10));
+        onRefresh();
     }, []);
 
     const renderItem = ({ item }) => {
@@ -22,29 +22,85 @@ const ChannelListScreen = (props) => {
                 flex: 1,
                 display: 'flex',
                 flexDirection: 'row',
-                borderWidth: 1,
-                padding: 10
+                alignItems: 'center',
+                paddingTop: 10,
+                paddingBottom: 10,
+                borderBottomColor: '#8F9BB3',
+                borderBottomWidth: 1,
+                borderRadius: 1
             }}>
+                <Icon style={{
+                    width: 24,
+                    height: 24,
+                }} name='cast-outline' fill='#8F9BB3' />
 
-                <Text>{item.get('title')}</Text>
-                <Text>{item.get('description')}</Text>
+                <Text style={{ flex: 1, marginLeft: 15, marginRight: 10 }} category="p1">{item.get('title')}</Text>
+
+
+                <Text category="c2">10</Text>
 
             </Layout>
         </TouchableWithoutFeedback>
     }
 
+    const onRefresh = () => {
+        let pageSize = props.channel.get('pageQuery').get('pageSize');
+        props.dispatch(refresh(pageSize));
+    }
+    const onEndReached = () => {
+        let hasMore = props.channel.get('pageQuery').get('hasMore');
+        if (hasMore) {
+            let pageIndex = props.channel.get('pageQuery').get('pageIndex');
+            let pageSize = props.channel.get('pageQuery').get('pageSize');
+            props.dispatch(pageQuery(pageIndex, pageSize));
+        }
+    }
+    const ListFooterComponent = () => {
+        return (
+            <Layout style={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 1
+            }}>
+                {
+                    props.channel.get('pageQuery').get('loading') == true &&
+
+                    <Text category="p2">正在加载中...</Text>
+                }
+
+                {
+                    props.channel.get('pageQuery').get('loading') == false && props.channel.get('pageQuery').get('hasMore') == false &&
+                    <Text category="p2">-没有更多啦-</Text>
+                }
+
+                {
+                    props.channel.get('pageQuery').get('loading') == false && props.channel.get('pageQuery').get('hasMore') == true &&
+                    <Text category="p2">上拉加载更多</Text>
+                }
+
+            </Layout>);
+    }
+
     return (
-        <Layout style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
             <FlatList
-                data={props.channel.get('channelList').toArray()}
+                data={props.channel.get('pageQuery').get('dataList').toArray()}
                 renderItem={renderItem}
                 keyExtractor={(item) => {
                     return item.get('id')
                 }}
+                onRefresh={onRefresh}
+                refreshing={props.channel.get('pageQuery').get('refreshing')}
+                onEndReached={onEndReached}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={ListFooterComponent}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
             />
-
-            <AddChannelScreen />
-        </Layout>
+            {/* <AddChannelScreen /> */}
+        </View>
     );
 }
 

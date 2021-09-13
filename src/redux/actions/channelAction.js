@@ -1,4 +1,6 @@
 import { fetchAndSaveRss, fetchRss, getChannelById, pageListFromDb, saveChannelToDb } from '../../api/channel';
+
+import * as channelApi from '../../api/channel';
 import { saveItemToDb } from '../../api/item';
 import { actionType } from '../actions/actionType';
 
@@ -17,16 +19,55 @@ export function addChannel(url) {
     }
 }
 
-export function pageQueryChannel(page, size) {
+
+export function pageQuery(page, size) {
     return function (dispatch) {
-        pageListFromDb(page, size).then(list => {
+        dispatch({
+            type: actionType.channel.pageQueryPending,
+            payload: null
+        });
+        channelApi.pageQuery(page, size).then(data => {
             dispatch({
-                type: actionType.channel.setChannelList,
-                payload: list
+                type: actionType.channel.pageQueryFulfilled,
+                payload: {
+                    totalNumber: data.totalNumber,
+                    list: data.list,
+                    page: page
+                }
+            });
+        }, error => {
+            dispatch({
+                type: actionType.channel.pageQueryRejected,
+                payload: error.message
             });
         });
     }
 }
+
+export function refresh(size) {
+    return function (dispatch) {
+        dispatch({
+            type: actionType.channel.refreshPending,
+            payload: null
+        });
+
+        channelApi.pageQuery(1, size).then(data => {
+            dispatch({
+                type: actionType.channel.refreshAddFulfilled,
+                payload: {
+                    totalNumber: data.totalNumber,
+                    list: data.list
+                }
+            });
+        }, error => {
+            dispatch({
+                type: actionType.channel.refreshAddRejected,
+                payload: error.message
+            });
+        });
+    }
+}
+
 
 export function setCurrentChannelId(channelId) {
     return {
@@ -89,8 +130,5 @@ const saveChannel = async (url, dispatch) => {
             payload: e.message
         });
     }
-
-    // 刷新页面
-    pageQueryChannel(1, 10);
 }
 

@@ -8,14 +8,26 @@ export const actionType = {
     },
     channel: {
         setAddChannelModalVisble: 'SET_ADD_CHANNEL_MODAL_VISBLE',
-        setChannelList: 'SET_CHANNEL_LIST',
-        pageQueryChannel: 'PAGE_QUERY_CHANNEL',
         setCurrentChannelId: 'SET_CURRENT_CHANNEL_ID',
         setCurrentChannel: 'SET_CURRENT_CHANNEL',
+
+
+
+        addList: 'CHANNEL_ADD_LIST',
+
+        refreshPending: `CHANNEL_REFRESH${ActionType.Pending}`,
+        refreshAddFulfilled: `CHANNEL_REFRESH${ActionType.Fulfilled}`,
+        refreshAddRejected: `CHANNEL_REFRESH${ActionType.Rejected}`,
 
         channelAddPending: `CHANNEL_ADD${ActionType.Pending}`,
         channelAddFulfilled: `CHANNEL_ADD${ActionType.Fulfilled}`,
         channelAddRejected: `CHANNEL_ADD${ActionType.Rejected}`,
+
+        setPageNumber: 'CHANNEL_SET_PAGENUMBER',
+
+        pageQueryPending: `CHANNEL_PAGEQUERY${ActionType.Pending}`,
+        pageQueryFulfilled: `CHANNEL_PAGEQUERY${ActionType.Fulfilled}`,
+        pageQueryRejected: `CHANNEL_PAGEQUERY${ActionType.Rejected}`,
     },
     item: {
         setItemList: 'SET_ITEM_LIST',
