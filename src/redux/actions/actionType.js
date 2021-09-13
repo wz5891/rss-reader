@@ -23,7 +23,9 @@ export const actionType = {
         pageQueryRejected: `CHANNEL_PAGEQUERY${ActionType.Rejected}`,
 
 
-        fetchChannelRss: 'ITEM_FETCH_NEW_ITEM'
+        fetchChannelRss: 'ITEM_FETCH_NEW_ITEM',
+
+
     },
     item: {
         setItemList: 'SET_ITEM_LIST',
@@ -35,6 +37,9 @@ export const actionType = {
         pageQueryFulfilled: `ITEM_PAGEQUERY${ActionType.Fulfilled}`,
         pageQueryRejected: `ITEM_PAGEQUERY${ActionType.Rejected}`,
 
+
+        markAllUnRead: 'ITEM_MARK_ALL_UNREADER',
+        markAllRead: 'ITEM_MARK_ALL_READER',
     },
     page: {
         pageSearchSetUserWord: 'PAGESEARCH_SETUSERWORD',

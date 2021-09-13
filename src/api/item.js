@@ -4,7 +4,7 @@ export const saveItemToDb = async ({ gid, channelId, title, link, description, l
     let db = await getDatabase();
     let result = await db.transaction(async (tx) => {
         await tx.executeSql(
-            'INSERT INTO t_item(gid,channel_id ,title,link,description,published_time,content,image_url) VALUES (?,?,?,?,?,?,?,?)',
+            'INSERT INTO t_item(gid,channel_id ,title,link,description,published_time,content,image_url,has_read) VALUES (?,?,?,?,?,?,?,?,0)',
             [gid, channelId, title, link, description, lastUpdated, content, imageUrl],
         );
     });
@@ -37,7 +37,8 @@ export const getItemById = async (itemId) => {
             description: item.description,
             publishedTime: item.published_time,
             content: item.content,
-            imageUrl: item.image_url
+            imageUrl: item.image_url,
+            hasRead: item.has_read
         });
     } else {
         return [];
@@ -66,7 +67,8 @@ export const pageQuery = async (page, size, channelId) => {
                 link: item.link,
                 description: item.description,
                 publishedTime: item.published_time,
-                imageUrl: item.image_url
+                imageUrl: item.image_url,
+                hasRead: item.has_read
             });
         }
     }
@@ -75,4 +77,16 @@ export const pageQuery = async (page, size, channelId) => {
         totalNumber,
         list
     }
+}
+
+
+export const markAllReadByChannelId = async (channelId) => {
+    let db = await getDatabase();
+    await db.executeSql(`UPDATE t_item SET has_read=1 WHERE channel_id= ${channelId}`);
+}
+
+
+export const markAllUnReadByChannelId = async (channelId) => {
+    let db = await getDatabase();
+    await db.executeSql(`UPDATE t_item SET has_read=0 WHERE channel_id= ${channelId}`);
 }

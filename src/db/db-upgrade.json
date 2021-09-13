@@ -7,7 +7,7 @@
       "DROP TABLE IF EXISTS t_channel;",
       "CREATE TABLE t_channel (id INTEGER NOT NULL UNIQUE,title TEXT,link TEXT,description TEXT,updated_time date,image_url TEXT,PRIMARY KEY(id AUTOINCREMENT));",
       "DROP TABLE IF EXISTS t_item;",
-      "CREATE TABLE t_item ( id INTEGER NOT NULL UNIQUE, gid TEXT,title TEXT, link TEXT, description TEXT, channel_id INTEGER, image_url TEXT, content TEXT, published_time date, PRIMARY KEY( id AUTOINCREMENT) );",
+      "CREATE TABLE t_item ( id INTEGER NOT NULL UNIQUE, gid TEXT,title TEXT, link TEXT, description TEXT, channel_id INTEGER, image_url TEXT, content TEXT, published_time date,has_read INGEGER, PRIMARY KEY( id AUTOINCREMENT) );",
       "DROP TABLE IF EXISTS t_favorite;",
       "CREATE TABLE  t_favorite  (  id  INTEGER UNIQUE,  item_id  INTEGER UNIQUE,  favarite_time  date, PRIMARY KEY( id  AUTOINCREMENT));"
     ]

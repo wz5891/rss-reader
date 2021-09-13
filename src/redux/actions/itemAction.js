@@ -56,3 +56,29 @@ export function pageQuery(page, size, channelId, refresh) {
 export function refresh(size, channelId) {
     return pageQuery(1, size, channelId, true);
 }
+
+
+
+
+export function markAllRead(channelId) {
+    return function (dispatch) {
+        itemApi.markAllReadByChannelId(channelId).then(() => {
+            dispatch({
+                type: actionType.item.markAllRead,
+                payload: null
+            })
+        });
+    }
+}
+
+
+export function markAllUnRead(channelId) {
+    return function (dispatch) {
+        itemApi.markAllUnReadByChannelId(channelId).then(() => {
+            dispatch({
+                type: actionType.item.markAllUnRead,
+                payload: null
+            })
+        });
+    }
+}

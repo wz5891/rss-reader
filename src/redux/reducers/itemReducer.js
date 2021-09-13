@@ -85,3 +85,18 @@ reducer.prototype[actionType.item.pageQueryRejected] = (state, action) => {
         .setIn('pageQuery.loading'.split('.'), false)
         .setIn('pageQuery.errorMsg'.split('.'), action.payload);
 }
+
+
+reducer.prototype[actionType.item.markAllRead] = (state, action) => {
+    return state.updateIn('pageQuery.dataList'.split('.'), list => list.map(item => {
+        return item.set('hasRead', 1);
+    }));
+}
+
+
+
+reducer.prototype[actionType.item.markAllUnRead] = (state, action) => {
+    return state.updateIn('pageQuery.dataList'.split('.'), list => list.map(item => {
+        return item.set('hasRead', 0);
+    }));
+}

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text, Spinner } from '@ui-kitten/components';
 import { FlatList, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { pageQuery, refresh, setCurrentItemlId } from '../redux/actions/itemAction';
+import { markAllRead, markAllUnRead, pageQuery, refresh, setCurrentItemlId } from '../redux/actions/itemAction';
 import { fetchChannelRss, setCurrentChannel } from '../redux/actions/channelAction';
 import moment from 'moment';
 import { fetchRss, getChannelById } from '../api/channel';
@@ -50,6 +50,17 @@ const ItemListScreen = (props) => {
         props.dispatch(fetchChannelRss(channelId));
     }
 
+    const markAllReadAction = () => {
+        let channelId = props.channel.get('currentChannelId');
+
+        props.dispatch(markAllRead(channelId));
+    }
+    const markAllUnReadAction = () => {
+        let channelId = props.channel.get('currentChannelId');
+
+        props.dispatch(markAllUnRead(channelId));
+    }
+
     const renderRightActions = () => (
         <React.Fragment>
             <OverflowMenu
@@ -60,8 +71,8 @@ const ItemListScreen = (props) => {
                 visible={menuVisible}
                 onBackdropPress={toggleMenu}>
                 <MenuItem accessoryLeft={SyncIcon} title='刷新' onPress={freshRss} />
-                <MenuItem accessoryLeft={CheckIcon} title='全标为已读' />
-                <MenuItem accessoryLeft={UnCheckIcon} title='全标为未读' />
+                <MenuItem accessoryLeft={CheckIcon} title='全标为已读' onPress={markAllReadAction} />
+                <MenuItem accessoryLeft={UnCheckIcon} title='全标为未读' onPress={markAllUnReadAction} />
             </OverflowMenu>
         </React.Fragment>
     );
@@ -74,6 +85,8 @@ const ItemListScreen = (props) => {
 
     const renderItem = ({ item }) => {
         let id = item.get('id');
+        let hasRead = item.get('hasRead');
+        console.log('hasRead=>', hasRead);
         return <TouchableWithoutFeedback onPress={() => {
             props.dispatch(setCurrentItemlId(id));
             props.navigation.navigate('ItemDetailScreen');
@@ -84,7 +97,8 @@ const ItemListScreen = (props) => {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: 15
+                padding: 15,
+                backgroundColor: hasRead ? 'red' : 'white'
             }}>
                 <Layout style={{
                     flex: 1,

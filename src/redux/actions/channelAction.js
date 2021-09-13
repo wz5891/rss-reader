@@ -1,7 +1,7 @@
 import { fetchAndSaveRss, fetchRss, getChannelById, pageListFromDb, saveChannelToDb } from '../../api/channel';
 
 import * as channelApi from '../../api/channel';
-import { existsByGid, saveItemToDb } from '../../api/item';
+import { existsByGid, markAllReadByChannelId, saveItemToDb } from '../../api/item';
 import { actionType } from '../actions/actionType';
 import { getFirstImageUrl } from '../../util/StringUitl';
 
@@ -174,3 +174,5 @@ const fetchChannel = async (channelId) => {
         console.log('没有文章更新');
     }
 }
+
+
