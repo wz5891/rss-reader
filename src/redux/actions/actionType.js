@@ -19,6 +19,8 @@ export const actionType = {
         refreshAddFulfilled: `CHANNEL_REFRESH${ActionType.Fulfilled}`,
         refreshAddRejected: `CHANNEL_REFRESH${ActionType.Rejected}`,
 
+        refreshPrepare: 'CHANNEL_REFRESH_PREPARE',
+
         channelAddPending: `CHANNEL_ADD${ActionType.Pending}`,
         channelAddFulfilled: `CHANNEL_ADD${ActionType.Fulfilled}`,
         channelAddRejected: `CHANNEL_ADD${ActionType.Rejected}`,

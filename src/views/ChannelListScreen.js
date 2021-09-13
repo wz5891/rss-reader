@@ -1,8 +1,7 @@
-import { Layout, Text, Icon } from '@ui-kitten/components';
+import { Layout, Text, Icon, Spinner } from '@ui-kitten/components';
 import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { pageQuery, refresh, setCurrentChannelId } from '../redux/actions/channelAction';
 import AddChannelScreen from './AddChannelScreen';
@@ -44,15 +43,21 @@ const ChannelListScreen = (props) => {
     }
 
     const onRefresh = () => {
-        let pageSize = props.channel.get('pageQuery').get('pageSize');
-        props.dispatch(refresh(pageSize));
+        let loading = props.channel.get('pageQuery').get('loading');
+        if (!loading) {
+            let pageSize = props.channel.get('pageQuery').get('pageSize');
+            props.dispatch(refresh(pageSize));
+        }
     }
     const onEndReached = () => {
-        let hasMore = props.channel.get('pageQuery').get('hasMore');
-        if (hasMore) {
-            let pageIndex = props.channel.get('pageQuery').get('pageIndex');
-            let pageSize = props.channel.get('pageQuery').get('pageSize');
-            props.dispatch(pageQuery(pageIndex, pageSize));
+        let loading = props.channel.get('pageQuery').get('loading');
+        if (!loading) {
+            let hasMore = props.channel.get('pageQuery').get('hasMore');
+            if (hasMore) {
+                let pageIndex = props.channel.get('pageQuery').get('pageIndex');
+                let pageSize = props.channel.get('pageQuery').get('pageSize');
+                props.dispatch(pageQuery(pageIndex, pageSize));
+            }
         }
     }
     const ListFooterComponent = () => {
@@ -62,12 +67,21 @@ const ChannelListScreen = (props) => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: 1
+                padding: 1,
+                height: 50
             }}>
                 {
                     props.channel.get('pageQuery').get('loading') == true &&
+                    <Layout style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
 
-                    <Text category="p2">正在加载中...</Text>
+                    }}>
+                        <Spinner />
+                        <Text style={{ marginLeft: 5 }} category="p2">加载中...</Text>
+                    </Layout>
                 }
 
                 {
@@ -99,7 +113,7 @@ const ChannelListScreen = (props) => {
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
             />
-            {/* <AddChannelScreen /> */}
+            <AddChannelScreen />
         </View>
     );
 }

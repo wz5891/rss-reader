@@ -67,57 +67,18 @@ reducer.prototype[actionType.channel.channelAddRejected] = (state, action) => {
 }
 
 
-
 // 下拉刷新
-reducer.prototype[actionType.channel.refreshPending] = (state, action) => {
+reducer.prototype[actionType.channel.refreshPrepare] = (state, action) => {
     return state
         .setIn('pageQuery.pageIndex'.split('.'), 1)
         .setIn('pageQuery.totalNumber'.split('.'), 0)
         .setIn('pageQuery.dataList'.split('.'), fromJS([]))
-        .setIn('pageQuery.refreshing'.split('.'), true)
-        .setIn('pageQuery.loading'.split('.'), true)
-        .setIn('pageQuery.hasMore'.split('.'), false)
-        .setIn('pageQuery.errorMsg'.split('.'), '');
+        .setIn('pageQuery.refreshing'.split('.'), true);
 }
-
-reducer.prototype[actionType.channel.refreshAddFulfilled] = (state, action) => {
-    let hasMore = false;
-    let totalNumber = action.payload.totalNumber;
-    let pageIndex = state.get('pageQuery').get('pageIndex');
-    let pageSize = state.get('pageQuery').get('pageSize');
-
-    if (totalNumber > pageIndex * pageSize) {
-        hasMore = true;
-    }
-
-    if (hasMore) {
-        pageIndex = pageIndex + 1;
-    }
-
-    return state
-        .setIn('pageQuery.pageIndex'.split('.'), pageIndex)
-        .setIn('pageQuery.totalNumber'.split('.'), totalNumber)
-        .setIn('pageQuery.dataList'.split('.'), fromJS(action.payload.list))
-        .setIn('pageQuery.refreshing'.split('.'), false)
-        .setIn('pageQuery.loading'.split('.'), false)
-        .setIn('pageQuery.hasMore'.split('.'), hasMore)
-        .setIn('pageQuery.errorMsg'.split('.'), '');
-}
-
-reducer.prototype[actionType.channel.refreshAddRejected] = (state, action) => {
-    return state
-        .setIn('pageQuery.refreshing'.split('.'), false)
-        .setIn('pageQuery.loading'.split('.'), false)
-        .setIn('pageQuery.errorMsg'.split('.'), action.payload);
-}
-
-
 
 // 分页查询
 reducer.prototype[actionType.channel.pageQueryPending] = (state, action) => {
-
     return state
-        .setIn('pageQuery.refreshing'.split('.'), false)
         .setIn('pageQuery.loading'.split('.'), true)
         .setIn('pageQuery.errorMsg'.split('.'), '');
 }

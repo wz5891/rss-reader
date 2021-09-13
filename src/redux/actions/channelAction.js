@@ -20,8 +20,14 @@ export function addChannel(url) {
 }
 
 
-export function pageQuery(page, size) {
+export function pageQuery(page, size, refresh) {
     return function (dispatch) {
+        if (refresh) {
+            dispatch({
+                type: actionType.channel.refreshPrepare,
+                payload: null
+            });
+        }
         dispatch({
             type: actionType.channel.pageQueryPending,
             payload: null
@@ -45,27 +51,7 @@ export function pageQuery(page, size) {
 }
 
 export function refresh(size) {
-    return function (dispatch) {
-        dispatch({
-            type: actionType.channel.refreshPending,
-            payload: null
-        });
-
-        channelApi.pageQuery(1, size).then(data => {
-            dispatch({
-                type: actionType.channel.refreshAddFulfilled,
-                payload: {
-                    totalNumber: data.totalNumber,
-                    list: data.list
-                }
-            });
-        }, error => {
-            dispatch({
-                type: actionType.channel.refreshAddRejected,
-                payload: error.message
-            });
-        });
-    }
+    return pageQuery(1, size, true);
 }
 
 
