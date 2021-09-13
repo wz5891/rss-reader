@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text, Spinner } from '@ui-kitten/components';
 import { FlatList, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { pageQueryItem, setCurrentItemlId } from '../redux/actions/itemAction';
-import { setCurrentChannel, pageQuery, refresh } from '../redux/actions/channelAction';
-import { fetchRss } from '../api/channel';
+import { pageQuery, refresh } from '../redux/actions/itemAction';
+import { setCurrentChannel } from '../redux/actions/channelAction';
 import moment from 'moment';
 
 const BackIcon = (props) => (
@@ -31,7 +30,7 @@ const ItemListScreen = (props) => {
     const [menuVisible, setMenuVisible] = React.useState(false);
 
     useEffect(() => {
-        props.dispatch(pageQueryItem(1, 10, props.channel.get('currentChannelId')));
+        props.dispatch(pageQuery(1, 10, props.channel.get('currentChannelId')));
 
         props.dispatch(setCurrentChannel(props.channel.get('currentChannelId')));
     }, [])
@@ -46,11 +45,7 @@ const ItemListScreen = (props) => {
 
     const renderRightActions = () => (
         <React.Fragment>
-            <TopNavigationAction icon={EditIcon} onPress={() => {
-                fetchRss('https://www.zhihu.com/rss').then(data => {
-                    console.log(data);
-                });
-            }} />
+            <TopNavigationAction icon={EditIcon} />
             <OverflowMenu
                 anchor={renderMenuAction}
                 visible={menuVisible}
@@ -93,6 +88,7 @@ const ItemListScreen = (props) => {
                     </Layout>
                     <Layout style={{
                         flex: 1,
+                        marginTop: 5
                     }}>
                         <Text category="p2">{moment(item.get('publishedTime')).format('yyyy-MM-DD HH:mm:ss')}</Text>
 
@@ -114,11 +110,11 @@ const ItemListScreen = (props) => {
     }
 
     const onRefresh = () => {
-        debugger;
         let loading = props.item.get('pageQuery').get('loading');
         if (!loading) {
             let pageSize = props.item.get('pageQuery').get('pageSize');
-            props.dispatch(refresh(pageSize));
+            let channelId = props.channel.get('currentChannelId');
+            props.dispatch(refresh(pageSize, channelId));
         }
     }
     const onEndReached = () => {
@@ -181,7 +177,7 @@ const ItemListScreen = (props) => {
 
 
             <FlatList
-                data={props.item.get('itemList').toArray()}
+                data={props.item.get('pageQuery').get('dataList').toArray()}
                 renderItem={renderItem}
                 keyExtractor={(item) => {
                     return item.get('id')

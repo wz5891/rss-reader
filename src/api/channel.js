@@ -17,8 +17,6 @@ export const fetchRss = async (url) => {
     let lastUpdated = rss.lastUpdated;
     let items = rss.items;
 
-    debugger;
-
 
     return {
         title, link, description, lastUpdated, items

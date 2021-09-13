@@ -2,20 +2,6 @@ import { getItemById, pageListFromDb } from '../../api/item';
 import { actionType } from './actionType';
 import * as itemApi from '../../api/item';
 
-
-
-export function pageQueryItem(page, size, channelId) {
-    return function (dispatch) {
-        pageListFromDb(page, size, channelId).then(list => {
-            dispatch({
-                type: actionType.item.setItemList,
-                payload: list
-            });
-        });
-    }
-}
-
-
 export function setCurrentItemlId(channelId) {
     return {
         type: actionType.item.setCurrentItemlId,
@@ -37,7 +23,7 @@ export function setCurrentItem(channelId) {
 
 
 
-export function pageQuery(page, size, refresh) {
+export function pageQuery(page, size, channelId, refresh) {
     return function (dispatch) {
         if (refresh) {
             dispatch({
@@ -49,7 +35,7 @@ export function pageQuery(page, size, refresh) {
             type: actionType.item.pageQueryPending,
             payload: null
         });
-        itemApi.pageQuery(page, size).then(data => {
+        itemApi.pageQuery(page, size, channelId).then(data => {
             dispatch({
                 type: actionType.item.pageQueryFulfilled,
                 payload: {
@@ -67,6 +53,6 @@ export function pageQuery(page, size, refresh) {
     }
 }
 
-export function refresh(size) {
-    return pageQuery(1, size, true);
+export function refresh(size, channelId) {
+    return pageQuery(1, size, channelId, true);
 }

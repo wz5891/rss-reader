@@ -3,11 +3,8 @@ import { fromJS } from 'immutable';
 
 function initialState() {
     return fromJS({
-        itemList: [],
         currentItemId: undefined,
         currentItem: {},
-
-
 
         pageQuery: {
             pageSize: 10,
@@ -31,9 +28,6 @@ export default function reducer(state = initialState(), action) {
     }
 }
 
-reducer.prototype[actionType.item.setItemList] = (state, action) => {
-    return state.set('itemList', fromJS(action.payload));
-}
 
 reducer.prototype[actionType.item.setCurrentItemlId] = (state, action) => {
     return state.set('currentItemId', action.payload).set('currentItem', fromJS({}));
@@ -45,10 +39,8 @@ reducer.prototype[actionType.item.setCurrentItem] = (state, action) => {
 
 
 
-
-
 // 下拉刷新
-reducer.prototype[actionType.channel.refreshPrepare] = (state, action) => {
+reducer.prototype[actionType.item.refreshPrepare] = (state, action) => {
     return state
         .setIn('pageQuery.pageIndex'.split('.'), 1)
         .setIn('pageQuery.totalNumber'.split('.'), 0)
@@ -57,13 +49,13 @@ reducer.prototype[actionType.channel.refreshPrepare] = (state, action) => {
 }
 
 // 分页查询
-reducer.prototype[actionType.channel.pageQueryPending] = (state, action) => {
+reducer.prototype[actionType.item.pageQueryPending] = (state, action) => {
     return state
         .setIn('pageQuery.loading'.split('.'), true)
         .setIn('pageQuery.errorMsg'.split('.'), '');
 }
 
-reducer.prototype[actionType.channel.pageQueryFulfilled] = (state, action) => {
+reducer.prototype[actionType.item.pageQueryFulfilled] = (state, action) => {
     let hasMore = false;
     let totalNumber = action.payload.totalNumber;
     let pageIndex = state.get('pageQuery').get('pageIndex');
@@ -87,7 +79,7 @@ reducer.prototype[actionType.channel.pageQueryFulfilled] = (state, action) => {
         .setIn('pageQuery.errorMsg'.split('.'), '');
 }
 
-reducer.prototype[actionType.channel.pageQueryRejected] = (state, action) => {
+reducer.prototype[actionType.item.pageQueryRejected] = (state, action) => {
     return state
         .setIn('pageQuery.refreshing'.split('.'), false)
         .setIn('pageQuery.loading'.split('.'), false)
