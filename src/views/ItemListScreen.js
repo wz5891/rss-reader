@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text, Spinner } from '@ui-kitten/components';
-import { FlatList, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { markAllRead, markAllUnRead, pageQuery, refresh, setCurrentItemlId } from '../redux/actions/itemAction';
+import { markAllRead, markAllUnRead, pageQuery, refresh, setCurrentItem, setCurrentItemlId, setOperateModalVisble } from '../redux/actions/itemAction';
 import { fetchChannelRss, setCurrentChannel } from '../redux/actions/channelAction';
 import moment from 'moment';
 import { fetchRss, getChannelById } from '../api/channel';
+import ItemOperateModal from './ItemOperateModal';
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
@@ -87,10 +88,15 @@ const ItemListScreen = (props) => {
         let id = item.get('id');
         let hasRead = item.get('hasRead');
         console.log('hasRead=>', hasRead);
-        return <TouchableWithoutFeedback onPress={() => {
+        return <TouchableOpacity onPress={() => {
             props.dispatch(setCurrentItemlId(id));
             props.navigation.navigate('ItemDetailScreen');
-        }}>
+        }} onLongPress={() => {
+            props.dispatch(setCurrentItemlId(id));
+            props.dispatch(setCurrentItem(id));
+            props.dispatch(setOperateModalVisble(true));
+        }}
+        >
             <Layout style={{
                 flex: 1,
                 display: 'flex',
@@ -98,7 +104,7 @@ const ItemListScreen = (props) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: 15,
-                backgroundColor: hasRead ? 'red' : 'white'
+                backgroundColor: hasRead ? 'red' : 'white',
             }}>
                 <Layout style={{
                     flex: 1,
@@ -130,7 +136,7 @@ const ItemListScreen = (props) => {
                     }}
                 />}
             </Layout>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
     }
 
     const onRefresh = () => {
@@ -215,6 +221,8 @@ const ItemListScreen = (props) => {
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
             />
+
+            <ItemOperateModal />
         </Layout>
     );
 }

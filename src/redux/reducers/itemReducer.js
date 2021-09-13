@@ -6,6 +6,8 @@ function initialState() {
         currentItemId: undefined,
         currentItem: {},
 
+        operateModalVisble: false,
+
         pageQuery: {
             pageSize: 10,
             pageIndex: 1,
@@ -36,8 +38,6 @@ reducer.prototype[actionType.item.setCurrentItemlId] = (state, action) => {
 reducer.prototype[actionType.item.setCurrentItem] = (state, action) => {
     return state.set('currentItem', fromJS(action.payload));
 }
-
-
 
 // 下拉刷新
 reducer.prototype[actionType.item.refreshPrepare] = (state, action) => {
@@ -100,3 +100,30 @@ reducer.prototype[actionType.item.markAllUnRead] = (state, action) => {
         return item.set('hasRead', 0);
     }));
 }
+
+
+reducer.prototype[actionType.item.setOperateModalVisble] = (state, action) => {
+    return state.set('operateModalVisble', action.payload);
+}
+
+
+reducer.prototype[actionType.item.markItemRead] = (state, action) => {
+    return state.updateIn('pageQuery.dataList'.split('.'), list => list.map(item => {
+        if (item.get('id') == action.payload) {
+            return item.set('hasRead', 1);
+        } else {
+            return item;
+        }
+    }));
+}
+
+reducer.prototype[actionType.item.markItemUnRead] = (state, action) => {
+    return state.updateIn('pageQuery.dataList'.split('.'), list => list.map(item => {
+        if (item.get('id') == action.payload) {
+            return item.set('hasRead', 0);
+        } else {
+            return item;
+        }
+    }));
+}
+

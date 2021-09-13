@@ -82,3 +82,35 @@ export function markAllUnRead(channelId) {
         });
     }
 }
+
+
+export function setOperateModalVisble(visble) {
+    return {
+        type: actionType.item.setOperateModalVisble,
+        payload: visble
+    }
+}
+
+
+export function markItemUnRead(itemId) {
+    return function (dispatch) {
+        itemApi.markItemUnRead(itemId).then(() => {
+            dispatch({
+                type: actionType.item.markItemUnRead,
+                payload: itemId
+            })
+        });
+    }
+}
+
+export function markItemRead(itemId) {
+    return function (dispatch) {
+        itemApi.markItemRead(itemId).then(() => {
+            dispatch({
+                type: actionType.item.markItemRead,
+                payload: itemId
+            })
+        });
+    }
+}
+

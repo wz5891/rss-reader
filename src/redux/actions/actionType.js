@@ -40,6 +40,10 @@ export const actionType = {
 
         markAllUnRead: 'ITEM_MARK_ALL_UNREADER',
         markAllRead: 'ITEM_MARK_ALL_READER',
+        markItemUnRead: 'ITEM_MARK_ITEM_UNREAD',
+        markItemRead: 'ITEM_MARK_ITEM_READ',
+
+        setOperateModalVisble: 'SET_OPERATE_MODAL_VISBLE'
     },
     page: {
         pageSearchSetUserWord: 'PAGESEARCH_SETUSERWORD',

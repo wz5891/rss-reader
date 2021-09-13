@@ -90,3 +90,15 @@ export const markAllUnReadByChannelId = async (channelId) => {
     let db = await getDatabase();
     await db.executeSql(`UPDATE t_item SET has_read=0 WHERE channel_id= ${channelId}`);
 }
+
+
+export const markItemUnRead = async (itemId) => {
+    let db = await getDatabase();
+    await db.executeSql(`UPDATE t_item SET has_read=0 WHERE id= ${itemId}`);
+}
+
+
+export const markItemRead = async (itemId) => {
+    let db = await getDatabase();
+    await db.executeSql(`UPDATE t_item SET has_read=1 WHERE id= ${itemId}`);
+}
