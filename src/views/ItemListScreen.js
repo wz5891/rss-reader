@@ -2,37 +2,39 @@ import React, { useEffect } from 'react';
 import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text, Spinner } from '@ui-kitten/components';
 import { FlatList, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { pageQuery, refresh } from '../redux/actions/itemAction';
-import { setCurrentChannel } from '../redux/actions/channelAction';
+import { pageQuery, refresh, setCurrentItemlId } from '../redux/actions/itemAction';
+import { fetchChannelRss, setCurrentChannel } from '../redux/actions/channelAction';
 import moment from 'moment';
+import { fetchRss, getChannelById } from '../api/channel';
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
 );
 
-const EditIcon = (props) => (
-    <Icon {...props} name='edit' />
-);
 
 const MenuIcon = (props) => (
     <Icon {...props} name='more-vertical' />
 );
 
-const InfoIcon = (props) => (
-    <Icon {...props} name='info' />
+const SyncIcon = (props) => (
+    <Icon {...props} name='sync-outline' />
 );
 
-const LogoutIcon = (props) => (
-    <Icon {...props} name='log-out' />
+const CheckIcon = (props) => (
+    <Icon {...props} name='checkmark-outline' />
+);
+const UnCheckIcon = (props) => (
+    <Icon {...props} name='close-outline' />
 );
 
 const ItemListScreen = (props) => {
     const [menuVisible, setMenuVisible] = React.useState(false);
 
     useEffect(() => {
-        props.dispatch(pageQuery(1, 10, props.channel.get('currentChannelId')));
+        let channelId = props.channel.get('currentChannelId');
+        props.dispatch(refresh(10, channelId));
 
-        props.dispatch(setCurrentChannel(props.channel.get('currentChannelId')));
+        props.dispatch(setCurrentChannel(channelId));
     }, [])
 
     const toggleMenu = () => {
@@ -42,16 +44,24 @@ const ItemListScreen = (props) => {
     const renderMenuAction = () => (
         <TopNavigationAction icon={MenuIcon} onPress={toggleMenu} />
     );
+    const freshRss = () => {
+        let channelId = props.channel.get('currentChannelId');
+
+        props.dispatch(fetchChannelRss(channelId));
+    }
 
     const renderRightActions = () => (
         <React.Fragment>
-            <TopNavigationAction icon={EditIcon} />
             <OverflowMenu
+                style={{
+                    width: 150
+                }}
                 anchor={renderMenuAction}
                 visible={menuVisible}
                 onBackdropPress={toggleMenu}>
-                <MenuItem accessoryLeft={InfoIcon} title='About' />
-                <MenuItem accessoryLeft={LogoutIcon} title='Logout' />
+                <MenuItem accessoryLeft={SyncIcon} title='刷新' onPress={freshRss} />
+                <MenuItem accessoryLeft={CheckIcon} title='全标为已读' />
+                <MenuItem accessoryLeft={UnCheckIcon} title='全标为未读' />
             </OverflowMenu>
         </React.Fragment>
     );
@@ -95,7 +105,7 @@ const ItemListScreen = (props) => {
                     </Layout>
                 </Layout>
 
-                <Image
+                {item.get('imageUrl') != '' && <Image
                     style={{
                         height: 70,
                         width: 70,
@@ -104,7 +114,7 @@ const ItemListScreen = (props) => {
                     source={{
                         uri: item.get('imageUrl')
                     }}
-                />
+                />}
             </Layout>
         </TouchableWithoutFeedback>
     }
@@ -122,9 +132,10 @@ const ItemListScreen = (props) => {
         if (!loading) {
             let hasMore = props.item.get('pageQuery').get('hasMore');
             if (hasMore) {
+                let channelId = props.channel.get('currentChannelId');
                 let pageIndex = props.item.get('pageQuery').get('pageIndex');
                 let pageSize = props.item.get('pageQuery').get('pageSize');
-                props.dispatch(pageQuery(pageIndex, pageSize));
+                props.dispatch(pageQuery(pageIndex, pageSize, channelId));
             }
         }
     }

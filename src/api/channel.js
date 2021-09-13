@@ -1,18 +1,14 @@
 import * as rssParser from 'react-native-rss-parser';
 import { getDatabase } from '../db/Database';
-export const fetchRss = async (url) => {
+export const fetchRss = async (link) => {
 
-    let response = await fetch(url);
+    let response = await fetch(link);
     let text = await response.text();
 
     let rss = await rssParser.parse(text);
 
     let title = rss.title;
 
-    let link = rss.links[0].url;
-    if (rss.links.length > 1) {
-        link = rss.links[1].url;
-    }
     let description = rss.description;
     let lastUpdated = rss.lastUpdated;
     let items = rss.items;
@@ -22,6 +18,7 @@ export const fetchRss = async (url) => {
         title, link, description, lastUpdated, items
     };
 }
+
 
 
 export const saveChannelToDb = async ({ title, link, description, lastUpdated }) => {
@@ -117,6 +114,6 @@ export const getChannelById = async (channelId) => {
             lastUpdated: item.lastUpdated
         });
     } else {
-        return [];
+        return {};
     }
 }

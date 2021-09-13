@@ -1,13 +1,24 @@
 import { getDatabase } from "../db/Database";
 
-export const saveItemToDb = async ({ channelId, title, link, description, lastUpdated, content, imageUrl }) => {
+export const saveItemToDb = async ({ gid, channelId, title, link, description, lastUpdated, content, imageUrl }) => {
     let db = await getDatabase();
     let result = await db.transaction(async (tx) => {
         await tx.executeSql(
-            'INSERT INTO t_item(channel_id ,title,link,description,published_time,content,image_url) VALUES (?,?,?,?,?,?,?)',
-            [channelId, title, link, description, lastUpdated, content, imageUrl],
+            'INSERT INTO t_item(gid,channel_id ,title,link,description,published_time,content,image_url) VALUES (?,?,?,?,?,?,?,?)',
+            [gid, channelId, title, link, description, lastUpdated, content, imageUrl],
         );
     });
+}
+
+export const existsByGid = async (gid, channelId) => {
+    let db = await getDatabase();
+    let result = await db.executeSql(`SELECT count(1) as size FROM t_item WHERE channel_id=${channelId} AND gid= '${gid}'`);
+    let size = result[0].rows.item(0).size;
+    if (size > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
