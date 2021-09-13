@@ -6,11 +6,18 @@ export const fetchRss = async (url) => {
     let text = await response.text();
 
     let rss = await rssParser.parse(text);
+
     let title = rss.title;
-    let link = rss.links[1].url;
+
+    let link = rss.links[0].url;
+    if (rss.links.length > 1) {
+        link = rss.links[1].url;
+    }
     let description = rss.description;
     let lastUpdated = rss.lastUpdated;
     let items = rss.items;
+
+    debugger;
 
 
     return {

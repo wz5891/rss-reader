@@ -1,5 +1,6 @@
 import { getItemById, pageListFromDb } from '../../api/item';
 import { actionType } from './actionType';
+import * as itemApi from '../../api/item';
 
 
 
@@ -33,3 +34,39 @@ export function setCurrentItem(channelId) {
     }
 }
 
+
+
+
+export function pageQuery(page, size, refresh) {
+    return function (dispatch) {
+        if (refresh) {
+            dispatch({
+                type: actionType.item.refreshPrepare,
+                payload: null
+            });
+        }
+        dispatch({
+            type: actionType.item.pageQueryPending,
+            payload: null
+        });
+        itemApi.pageQuery(page, size).then(data => {
+            dispatch({
+                type: actionType.item.pageQueryFulfilled,
+                payload: {
+                    totalNumber: data.totalNumber,
+                    list: data.list,
+                    page: page
+                }
+            });
+        }, error => {
+            dispatch({
+                type: actionType.item.pageQueryRejected,
+                payload: error.message
+            });
+        });
+    }
+}
+
+export function refresh(size) {
+    return pageQuery(1, size, true);
+}

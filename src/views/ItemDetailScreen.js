@@ -115,7 +115,7 @@ const ItemDetailScreen = (props) => {
                     <RenderHtml
                         contentWidth={width}
                         source={{
-                            html: props.item.get('currentItem').get('content')
+                            html: props.item.get('currentItem').get('content') ? props.item.get('currentItem').get('content') : props.item.get('currentItem').get('description')
                         }}
                         ignoredDomTags={['iframe']}
                     />

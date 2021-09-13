@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
-import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text } from '@ui-kitten/components';
-import { FlatList, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text, Spinner } from '@ui-kitten/components';
+import { FlatList, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { pageQueryItem, setCurrentItemlId } from '../redux/actions/itemAction';
-import { setCurrentChannel } from '../redux/actions/channelAction';
+import { setCurrentChannel, pageQuery, refresh } from '../redux/actions/channelAction';
+import { fetchRss } from '../api/channel';
+import moment from 'moment';
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
@@ -44,7 +46,11 @@ const ItemListScreen = (props) => {
 
     const renderRightActions = () => (
         <React.Fragment>
-            <TopNavigationAction icon={EditIcon} />
+            <TopNavigationAction icon={EditIcon} onPress={() => {
+                fetchRss('https://www.zhihu.com/rss').then(data => {
+                    console.log(data);
+                });
+            }} />
             <OverflowMenu
                 anchor={renderMenuAction}
                 visible={menuVisible}
@@ -71,15 +77,96 @@ const ItemListScreen = (props) => {
                 flex: 1,
                 display: 'flex',
                 flexDirection: 'row',
-                borderBottomWidth: 1,
-                padding: 10
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 15
             }}>
+                <Layout style={{
+                    flex: 1,
+                    padding: 2
+                }}>
+                    <Layout style={{
+                        flex: 1,
+                    }}>
+                        <Text category="s1">{item.get('title')}</Text>
+                        <Text category="s2">{item.get('description')}</Text>
+                    </Layout>
+                    <Layout style={{
+                        flex: 1,
+                    }}>
+                        <Text category="p2">{moment(item.get('publishedTime')).format('yyyy-MM-DD HH:mm:ss')}</Text>
 
-                <Text>{item.get('title')}</Text>
-                <Text>{item.get('description')}</Text>
+                    </Layout>
+                </Layout>
 
+                <Image
+                    style={{
+                        height: 70,
+                        width: 70,
+                        borderRadius: 5
+                    }}
+                    source={{
+                        uri: item.get('imageUrl')
+                    }}
+                />
             </Layout>
         </TouchableWithoutFeedback>
+    }
+
+    const onRefresh = () => {
+        debugger;
+        let loading = props.item.get('pageQuery').get('loading');
+        if (!loading) {
+            let pageSize = props.item.get('pageQuery').get('pageSize');
+            props.dispatch(refresh(pageSize));
+        }
+    }
+    const onEndReached = () => {
+        let loading = props.item.get('pageQuery').get('loading');
+        if (!loading) {
+            let hasMore = props.item.get('pageQuery').get('hasMore');
+            if (hasMore) {
+                let pageIndex = props.item.get('pageQuery').get('pageIndex');
+                let pageSize = props.item.get('pageQuery').get('pageSize');
+                props.dispatch(pageQuery(pageIndex, pageSize));
+            }
+        }
+    }
+    const ListFooterComponent = () => {
+        return (
+            <Layout style={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 1,
+                height: 50
+            }}>
+                {
+                    props.item.get('pageQuery').get('loading') == true &&
+                    <Layout style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+
+                    }}>
+                        <Spinner />
+                        <Text style={{ marginLeft: 5 }} category="p2">加载中...</Text>
+                    </Layout>
+                }
+
+                {
+                    props.item.get('pageQuery').get('loading') == false && props.item.get('pageQuery').get('hasMore') == false &&
+                    <Text category="p2">-没有更多啦-</Text>
+                }
+
+                {
+                    props.item.get('pageQuery').get('loading') == false && props.item.get('pageQuery').get('hasMore') == true &&
+                    <Text category="p2">上拉加载更多</Text>
+                }
+
+            </Layout>);
     }
 
     return (
@@ -99,6 +186,13 @@ const ItemListScreen = (props) => {
                 keyExtractor={(item) => {
                     return item.get('id')
                 }}
+                onRefresh={onRefresh}
+                refreshing={props.item.get('pageQuery').get('refreshing')}
+                onEndReached={onEndReached}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={ListFooterComponent}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
             />
         </Layout>
     );

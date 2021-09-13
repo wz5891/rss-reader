@@ -3,6 +3,7 @@ import { fetchAndSaveRss, fetchRss, getChannelById, pageListFromDb, saveChannelT
 import * as channelApi from '../../api/channel';
 import { saveItemToDb } from '../../api/item';
 import { actionType } from '../actions/actionType';
+import { getFirstImageUrl } from '../../util/StringUitl';
 
 export function setAddChannelModalVisble(visble) {
     return {
@@ -89,13 +90,28 @@ const saveChannel = async (url, dispatch) => {
                 let item = rss.items[i];
                 console.log('开始保存item...');
 
+                let description = item.description;
+                let content = item.content;
+                if (!content) {
+                    content = item.description;
+                }
+                if (!description) {
+                    description = item.content;
+                }
+                if (description) {
+                    description = description.substr(0, 300);
+                }
+                // 查找第一张图片
+                let imageUrl = getFirstImageUrl(content);
+
                 await saveItemToDb({
                     channelId: channelId,
                     title: item.title,
                     link: item.links[0].url,
-                    description: item.description,
+                    description: description,
                     lastUpdated: item.published,
-                    content: item.content
+                    content: content,
+                    imageUrl: imageUrl
                 });
             }
 
