@@ -46,13 +46,13 @@ const ItemOperateModal = (props) => {
                     </TouchableOpacity>
                 }
 
-                <TouchableOpacity style={styles.item}>
+                {/* <TouchableOpacity style={styles.item}>
                     <Text category="s1">上面全部标记为已读</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.item}>
                     <Text category="s1">下面全部标记为已读</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </Card>
         </Modal >
     );

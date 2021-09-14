@@ -1,25 +1,20 @@
 import React, { useEffect } from 'react';
 import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text, Spinner } from '@ui-kitten/components';
-import { FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, Image, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import { markAllRead, markAllUnRead, pageQuery, refresh, setCurrentItem, setCurrentItemlId, setOperateModalVisble } from '../redux/actions/itemAction';
-import { fetchChannelRss, setCurrentChannel } from '../redux/actions/channelAction';
+import { fetchChannelRss, setCurrentChannel, setSingleChannelMenuVisble } from '../redux/actions/channelAction';
 import moment from 'moment';
-import { fetchRss, getChannelById } from '../api/channel';
 import ItemOperateModal from './ItemOperateModal';
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
 );
 
-
 const MenuIcon = (props) => (
     <Icon {...props} name='more-vertical' />
 );
 
-const SyncIcon = (props) => (
-    <Icon {...props} name='sync-outline' />
-);
 
 const CheckIcon = (props) => (
     <Icon {...props} name='checkmark-outline' />
@@ -29,8 +24,38 @@ const UnCheckIcon = (props) => (
 );
 
 const ItemListScreen = (props) => {
-    const [menuVisible, setMenuVisible] = React.useState(false);
+    // 动画相关开始
+    const animationValue = React.useRef(new Animated.Value(0)).current;
 
+    let animated = null;
+    const startAnimate = () => {
+        if (animated) {
+            animated.stop();
+        }
+        animationValue.setValue(0);
+        animated = Animated.loop(Animated.timing(animationValue, {
+            toValue: 1,
+            duration: 1000,
+            easing: Easing.in,
+            useNativeDriver: true,
+        }));
+        animated.start();
+    };
+
+    React.useEffect(() => {
+        return () => {
+            if (animated != null) {
+                animated.stop();
+            }
+        }
+    }, []);
+
+    let rotateZ = animationValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '180deg'],
+    });
+
+    // 业务相关开始
     useEffect(() => {
         let channelId = props.channel.get('currentChannelId');
         props.dispatch(refresh(10, channelId));
@@ -39,7 +64,8 @@ const ItemListScreen = (props) => {
     }, [])
 
     const toggleMenu = () => {
-        setMenuVisible(!menuVisible);
+        let singleChannelMenuVisble = props.channel.get('singleChannelMenuVisble');
+        props.dispatch(setSingleChannelMenuVisble(!singleChannelMenuVisble));
     };
 
     const renderMenuAction = () => (
@@ -47,7 +73,7 @@ const ItemListScreen = (props) => {
     );
     const freshRss = () => {
         let channelId = props.channel.get('currentChannelId');
-
+        startAnimate()
         props.dispatch(fetchChannelRss(channelId));
     }
 
@@ -62,16 +88,36 @@ const ItemListScreen = (props) => {
         props.dispatch(markAllUnRead(channelId));
     }
 
+    const SyncIcon = (props) => (
+        <Icon {...props} name='sync-outline' />
+    )
+
     const renderRightActions = () => (
         <React.Fragment>
+            {
+                props.channel.get('fetchingSingle') == true &&
+                <Animated.View
+                    style={{
+                        transform: [{ rotateZ: rotateZ }],
+                    }}>
+                    <TopNavigationAction icon={SyncIcon} />
+                </Animated.View>
+            }
+            {
+                props.channel.get('fetchingSingle') == false &&
+                <TopNavigationAction icon={SyncIcon} onPress={() => {
+                    freshRss();
+                }} />
+            }
+
             <OverflowMenu
                 style={{
                     width: 150
                 }}
                 anchor={renderMenuAction}
-                visible={menuVisible}
+                visible={props.channel.get('singleChannelMenuVisble')}
                 onBackdropPress={toggleMenu}>
-                <MenuItem accessoryLeft={SyncIcon} title='刷新' onPress={freshRss} />
+
                 <MenuItem accessoryLeft={CheckIcon} title='全标为已读' onPress={markAllReadAction} />
                 <MenuItem accessoryLeft={UnCheckIcon} title='全标为未读' onPress={markAllUnReadAction} />
             </OverflowMenu>
@@ -103,7 +149,7 @@ const ItemListScreen = (props) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: 15,
-                backgroundColor: hasRead ? 'red' : 'white',
+                opacity: hasRead ? 0.6 : 1,
             }}>
                 <Layout style={{
                     flex: 1,

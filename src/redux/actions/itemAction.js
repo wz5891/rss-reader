@@ -67,6 +67,11 @@ export function markAllRead(channelId) {
                 type: actionType.item.markAllRead,
                 payload: null
             })
+
+            dispatch({
+                type: actionType.channel.setSingleChannelMenuVisble,
+                payload: false
+            })
         });
     }
 }
@@ -78,6 +83,11 @@ export function markAllUnRead(channelId) {
             dispatch({
                 type: actionType.item.markAllUnRead,
                 payload: null
+            })
+
+            dispatch({
+                type: actionType.channel.setSingleChannelMenuVisble,
+                payload: false
             })
         });
     }

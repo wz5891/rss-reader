@@ -12,6 +12,13 @@ export function setAddChannelModalVisble(visble) {
     }
 }
 
+export function setSingleChannelMenuVisble(visble) {
+    return {
+        type: actionType.channel.setSingleChannelMenuVisble,
+        payload: visble
+    }
+}
+
 
 export function addChannel(url) {
     return function (dispatch) {
@@ -143,9 +150,18 @@ export function setCurrentChannel(channelId) {
 
 export function fetchChannelRss(channelId) {
     return function (dispatch) {
+        dispatch({
+            type: actionType.channel.fetchSingleChannelPending,
+            payload: null
+        });
         fetchChannel(channelId).then(() => {
             dispatch({
-                type: actionType.channel.pageQueryPending,
+                type: actionType.channel.fetchSingleChannelFulfilled,
+                payload: null
+            });
+        }, error => {
+            dispatch({
+                type: actionType.channel.fetchSingleChannelRejected,
                 payload: null
             });
         });
@@ -154,9 +170,18 @@ export function fetchChannelRss(channelId) {
 
 export function fetchAllChannelRss() {
     return function (dispatch) {
+        dispatch({
+            type: actionType.channel.fetchAllChannelPending,
+            payload: null
+        });
         fetchAllChannel().then(() => {
             dispatch({
-                type: actionType.channel.pageQueryPending,
+                type: actionType.channel.fetchAllChannelFulfilled,
+                payload: null
+            });
+        }, error => {
+            dispatch({
+                type: actionType.channel.fetchAllChannelRejected,
                 payload: null
             });
         });

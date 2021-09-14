@@ -8,6 +8,8 @@ export const actionType = {
     },
     channel: {
         setAddChannelModalVisble: 'SET_ADD_CHANNEL_MODAL_VISBLE',
+        setSingleChannelMenuVisble: 'SET_SINGLE_CHANNEL_MENU_VISBLE',
+
         setCurrentChannelId: 'SET_CURRENT_CHANNEL_ID',
         setCurrentChannel: 'SET_CURRENT_CHANNEL',
 
@@ -24,9 +26,14 @@ export const actionType = {
 
 
 
+        fetchAllChannelPending: `CHANNEL_FETCH_ALL${ActionType.Pending}`,
+        fetchAllChannelFulfilled: `CHANNEL_FETCH_ALL${ActionType.Fulfilled}`,
+        fetchAllChannelRejected: `CHANNEL_FETCH_ALL${ActionType.Rejected}`,
 
 
-
+        fetchSingleChannelPending: `CHANNEL_FETCH_SINGLE${ActionType.Pending}`,
+        fetchSingleChannelFulfilled: `CHANNEL_FETCH_SINGLE${ActionType.Fulfilled}`,
+        fetchSingleChannelRejected: `CHANNEL_FETCH_SINGLE${ActionType.Rejected}`,
     },
     item: {
         setItemList: 'SET_ITEM_LIST',

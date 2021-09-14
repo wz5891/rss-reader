@@ -5,6 +5,7 @@ import { act } from 'react-test-renderer';
 function initialState() {
     return fromJS({
         channelModalVisble: false,
+        singleChannelMenuVisble: false,
 
         pageQuery: {
             pageSize: 10,
@@ -23,7 +24,13 @@ function initialState() {
         add: {
             doing: false,
             errorMsg: ''
-        }
+        },
+
+        fetchAll: {
+            loading: false
+        },
+
+        fetchingSingle: false
     });
 }
 
@@ -113,3 +120,35 @@ reducer.prototype[actionType.channel.pageQueryRejected] = (state, action) => {
         .setIn('pageQuery.loading'.split('.'), false)
         .setIn('pageQuery.errorMsg'.split('.'), action.payload);
 }
+
+
+// 更新全部
+reducer.prototype[actionType.channel.fetchAllChannelPending] = (state, action) => {
+    return state
+        .setIn('fetchAll.loading'.split('.'), true);
+}
+reducer.prototype[actionType.channel.fetchAllChannelFulfilled] = (state, action) => {
+    return state
+        .setIn('fetchAll.loading'.split('.'), false);
+}
+reducer.prototype[actionType.channel.fetchAllChannelRejected] = (state, action) => {
+    return state
+        .setIn('fetchAll.loading'.split('.'), false);
+}
+
+// 更新某个
+reducer.prototype[actionType.channel.fetchSingleChannelPending] = (state, action) => {
+    return state.set('fetchingSingle', true);
+}
+reducer.prototype[actionType.channel.fetchSingleChannelFulfilled] = (state, action) => {
+    return state.set('fetchingSingle', false);
+}
+reducer.prototype[actionType.channel.fetchSingleChannelRejected] = (state, action) => {
+    return state.set('fetchingSingle', false);
+}
+
+reducer.prototype[actionType.channel.setSingleChannelMenuVisble] = (state, action) => {
+    return state.set('singleChannelMenuVisble', action.payload);
+}
+
+

@@ -1,24 +1,66 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Animated, Easing, StyleSheet } from 'react-native';
 import { Layout, Text, Icon, TopNavigation, TopNavigationAction, OverflowMenu, MenuItem } from '@ui-kitten/components';
 import { connect } from 'react-redux';
 import { fetchAllChannelRss, setAddChannelModalVisble } from '../../redux/actions/channelAction';
-
-
-const SyncIcon = (props) => (
-    <Icon {...props} name='sync-outline' />
-);
 
 const PlusIcon = (props) => (
     <Icon {...props} name='plus-outline' />
 );
 
+const SyncIcon = (props) => {
+    return <Icon {...props} name='sync-outline' />
+}
+
 const ChannelListHeader = (props) => {
+    const animationValue = React.useRef(new Animated.Value(0)).current;
+
+    let animated = null;
+    const startAnimate = () => {
+        if (animated) {
+            animated.stop();
+        }
+        animationValue.setValue(0);
+        animated = Animated.loop(Animated.timing(animationValue, {
+            toValue: 1,
+            duration: 1000,
+            easing: Easing.in,
+            useNativeDriver: true,
+        }));
+        animated.start();
+    };
+
+    React.useEffect(() => {
+        return () => {
+            if (animated != null) {
+                animated.stop();
+            }
+        }
+    }, []);
+
+    let rotateZ = animationValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '180deg'],
+    });
+
     const renderRightActions = () => (
         <React.Fragment>
-            <TopNavigationAction icon={SyncIcon} onPress={() => {
-                props.dispatch(fetchAllChannelRss());
-            }} />
+            {
+                props.channel.get('fetchAll').get('loading') == true &&
+                <Animated.View
+                    style={{
+                        transform: [{ rotateZ: rotateZ }],
+                    }}>
+                    <TopNavigationAction icon={SyncIcon} />
+                </Animated.View>
+            }
+            {
+                props.channel.get('fetchAll').get('loading') == false &&
+                <TopNavigationAction icon={SyncIcon} onPress={() => {
+                    startAnimate();
+                    props.dispatch(fetchAllChannelRss());
+                }} />
+            }
 
             <TopNavigationAction icon={PlusIcon} onPress={() => {
                 props.dispatch(setAddChannelModalVisble(true));
