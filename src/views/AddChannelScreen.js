@@ -4,7 +4,7 @@ import { Layout, Text, Icon, Input, Card, Modal, Button, Spinner } from '@ui-kit
 import { connect } from 'react-redux';
 import { addChannel, setAddChannelModalVisble } from '../redux/actions/channelAction';
 const AddChannelScreen = (props) => {
-    const [url, setUrl] = useState('https://www.ruanyifeng.com/blog/atom.xml');
+    const [url, setUrl] = useState('');
 
     const LoadingIndicator = () => {
         if (props.channel.get('add').get('doing')) {
@@ -24,6 +24,7 @@ const AddChannelScreen = (props) => {
             return;
         }
         props.dispatch(addChannel(url));
+        setUrl('');
     }
 
     const Header = (props) => (

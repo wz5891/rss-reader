@@ -6,6 +6,7 @@ import { markAllRead, markAllUnRead, pageQuery, refresh, setCurrentItem, setCurr
 import { fetchChannelRss, setCurrentChannel, setSingleChannelMenuVisble } from '../redux/actions/channelAction';
 import moment from 'moment';
 import ItemOperateModal from './ItemOperateModal';
+import { cutString } from '../util/StringUitl';
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
@@ -158,8 +159,8 @@ const ItemListScreen = (props) => {
                     <Layout style={{
                         flex: 1,
                     }}>
-                        <Text category="s1">{item.get('title')}</Text>
-                        <Text category="s2">{item.get('description')}</Text>
+                        <Text category="s1" numberOfLines={2} ellipsizeMode="tail">{item.get('title')}</Text>
+                        <Text category="s2" numberOfLines={2} ellipsizeMode="tail">{item.get('description')}</Text>
                     </Layout>
                     <Layout style={{
                         flex: 1,
@@ -246,7 +247,7 @@ const ItemListScreen = (props) => {
             <TopNavigation
                 alignment='center'
                 title={props.channel.get('currentChannel').get('title')}
-                subtitle={props.channel.get('currentChannel').get('description')}
+                subtitle={cutString(props.channel.get('currentChannel').get('description'), 15)}
                 accessoryLeft={renderBackAction}
                 accessoryRight={renderRightActions}
             />

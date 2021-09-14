@@ -19,11 +19,11 @@ const ChannelListScreen = (props) => {
         }}>
             <Layout style={styles.item}>
                 <Icon style={{
-                    width: 20,
-                    height: 20,
+                    width: 24,
+                    height: 24,
                 }} name='cast-outline' fill='#8F9BB3' />
 
-                <Text style={{ flex: 1, marginLeft: 12, }} category="p2">{item.get('title')}</Text>
+                <Text style={{ flex: 1, marginLeft: 12, }} category="p1">{item.get('title')}</Text>
 
 
                 <Text category="c2">{item.get('unReadNumber')}</Text>

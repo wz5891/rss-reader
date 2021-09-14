@@ -5,3 +5,15 @@ export const getFirstImageUrl = function (str) {
     });
     return data
 }
+
+export const cutString = (str, size) => {
+    if (!str) {
+        return '';
+    }
+
+    if (str.length <= size) {
+        return str;
+    } else {
+        return str.substr(0, size) + '...';
+    }
+}

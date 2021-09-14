@@ -181,6 +181,7 @@ export function fetchAllChannelRss() {
                 type: actionType.channel.fetchAllChannelFulfilled,
                 payload: null
             });
+
         }, error => {
             dispatch({
                 type: actionType.channel.fetchAllChannelRejected,

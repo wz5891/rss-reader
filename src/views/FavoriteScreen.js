@@ -37,8 +37,8 @@ const FavoriteScreen = (props) => {
                     <Layout style={{
                         flex: 1,
                     }}>
-                        <Text category="s1">{item.get('title')}</Text>
-                        <Text category="s2">{item.get('description')}</Text>
+                        <Text category="s1" numberOfLines={2} ellipsizeMode="tail">{item.get('title')}</Text>
+                        <Text category="s2" numberOfLines={2} ellipsizeMode="tail">{item.get('description')}</Text>
                     </Layout>
                     <Layout style={{
                         flex: 1,
@@ -140,7 +140,7 @@ const FavoriteScreen = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
 });
 
