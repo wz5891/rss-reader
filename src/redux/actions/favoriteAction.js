@@ -8,11 +8,13 @@ export function pageQuery(page, size, refresh) {
                 type: actionType.favorite.refreshPrepare,
                 payload: null
             });
+        } else {
+            dispatch({
+                type: actionType.favorite.pageQueryPending,
+                payload: null
+            });
         }
-        dispatch({
-            type: actionType.favorite.pageQueryPending,
-            payload: null
-        });
+
         itemApi.pageQueryForFavorite(page, size).then(data => {
             dispatch({
                 type: actionType.favorite.pageQueryFulfilled,

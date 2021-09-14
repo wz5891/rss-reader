@@ -21,8 +21,6 @@ export function setCurrentItem(channelId) {
 }
 
 
-
-
 export function pageQuery(page, size, channelId, refresh) {
     return function (dispatch) {
         if (refresh) {
@@ -30,11 +28,13 @@ export function pageQuery(page, size, channelId, refresh) {
                 type: actionType.item.refreshPrepare,
                 payload: null
             });
+        } else {
+            dispatch({
+                type: actionType.item.pageQueryPending,
+                payload: null
+            });
         }
-        dispatch({
-            type: actionType.item.pageQueryPending,
-            payload: null
-        });
+
         itemApi.pageQuery(page, size, channelId).then(data => {
             dispatch({
                 type: actionType.item.pageQueryFulfilled,

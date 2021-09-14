@@ -101,11 +101,13 @@ export function pageQuery(page, size, refresh) {
                 type: actionType.channel.refreshPrepare,
                 payload: null
             });
+        } else {
+            dispatch({
+                type: actionType.channel.pageQueryPending,
+                payload: null
+            });
         }
-        dispatch({
-            type: actionType.channel.pageQueryPending,
-            payload: null
-        });
+
         channelApi.pageQuery(page, size).then(data => {
             dispatch({
                 type: actionType.channel.pageQueryFulfilled,
