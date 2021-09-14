@@ -45,19 +45,11 @@ export const actionType = {
 
         setOperateModalVisble: 'SET_OPERATE_MODAL_VISBLE'
     },
-    page: {
-        pageSearchSetUserWord: 'PAGESEARCH_SETUSERWORD',
-        pageSearchSetError: 'PAGESEARCH_SETERROR',
-        pageSearchSetLoading: 'PAGESEARCH_SETLOADING',
-        pageSearchShowCamera: 'PAGESEARCH_SHOWCAMERA',
-        pageSearchSetState: 'PAGESEARCH_SETSTATE',
+    favorite: {
+        refreshPrepare: 'FAVORITE_REFRESH_PREPARE',
+        pageQueryPending: `FAVORITE_PAGEQUERY${ActionType.Pending}`,
+        pageQueryFulfilled: `FAVORITE_PAGEQUERY${ActionType.Fulfilled}`,
+        pageQueryRejected: `FAVORITE_PAGEQUERY${ActionType.Rejected}`,
+    },
 
-        pageFavLoadListPending: `PAGEFAV_LOADLIST${ActionType.Pending}`,
-        pageFavLoadListFulfilled: `PAGEFAV_LOADLIST${ActionType.Fulfilled}`,
-        pageFavLoadListRejected: `PAGEFAV_LOADLIST${ActionType.Rejected}`,
-
-        pageFavDetailSetError: 'PAGEFAVDETAIL_SETERROR',
-        pageFavDetailSetLoading: 'PAGEFAVDETAIL_SETLOADING',
-        pageFavDetailSetState: 'PAGEFAVDETAIL_SETSTATE',
-    }
 }

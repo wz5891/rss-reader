@@ -4,7 +4,7 @@ export const saveItemToDb = async ({ gid, channelId, title, link, description, l
     let db = await getDatabase();
     let result = await db.transaction(async (tx) => {
         await tx.executeSql(
-            'INSERT INTO t_item(gid,channel_id ,title,link,description,published_time,content,image_url,has_read) VALUES (?,?,?,?,?,?,?,?,0)',
+            'INSERT INTO t_item(gid,channel_id ,title,link,description,published_time,content,image_url,has_read,has_favorite) VALUES (?,?,?,?,?,?,?,?,0,0)',
             [gid, channelId, title, link, description, lastUpdated, content, imageUrl],
         );
     });
@@ -45,16 +45,38 @@ export const getItemById = async (itemId) => {
     }
 }
 
-
-
 export const pageQuery = async (page, size, channelId) => {
     let db = await getDatabase();
+    let countSql = `SELECT count(1) as totalNumber FROM t_item WHERE channel_id = ${channelId}`;
+
     // 先查询数据总条数
-    let totalNumberResult = await db.executeSql(`SELECT count(1) as totalNumber FROM t_item WHERE channel_id = ${channelId}`);
+    let totalNumberResult = await db.executeSql(countSql);
     let totalNumber = totalNumberResult[0].rows.item(0).totalNumber;
 
     // 再查询当前页的数据
-    let pageResult = await db.executeSql(`SELECT * FROM t_item WHERE channel_id = ${channelId} ORDER BY id DESC limit ${size} offset ${(page - 1) * size}`);
+    let listSql = `SELECT * FROM t_item WHERE channel_id = ${channelId} ORDER BY id DESC limit ${size} offset ${(page - 1) * size}`;
+
+    let pageResult = await db.executeSql(listSql);
+    return pageQueryResult(totalNumber, pageResult);
+}
+
+
+export const pageQueryForFavorite = async (page, size) => {
+    let db = await getDatabase();
+    let countSql = `SELECT count(1) as totalNumber FROM t_item WHERE has_favorite = 1`;
+
+    // 先查询数据总条数
+    let totalNumberResult = await db.executeSql(countSql);
+    let totalNumber = totalNumberResult[0].rows.item(0).totalNumber;
+
+    // 再查询当前页的数据
+    let listSql = `SELECT * FROM t_item WHERE has_favorite = 1 ORDER BY id DESC limit ${size} offset ${(page - 1) * size}`;
+
+    let pageResult = await db.executeSql(listSql);
+    return pageQueryResult(totalNumber, pageResult);
+}
+
+const pageQueryResult = (totalNumber, pageResult) => {
     let rows = pageResult[0].rows;
     let length = rows.length;
     let list = [];
@@ -78,6 +100,7 @@ export const pageQuery = async (page, size, channelId) => {
         list
     }
 }
+
 
 
 export const markAllReadByChannelId = async (channelId) => {

@@ -7,6 +7,7 @@ import FavoriteScreen from './FavoriteScreen';
 import SettingScreen from './SettingScreen';
 import ChannelListHeader from './header/ChannelListHeader';
 import { getHeaderTitle } from '@react-navigation/elements';
+import FavoriteHeader from './header/FavoriteHeader';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const ChannelIcon = (props) => (
@@ -27,6 +28,8 @@ const header = ({ navigation, route, options }) => {
 
     if (name == 'ChannelList') {
         return <ChannelListHeader />;
+    } else if (name = 'Favorite') {
+        return <FavoriteHeader />;
     }
 
     const title = getHeaderTitle(options, route.name);
@@ -63,7 +66,7 @@ const TabNavigator = () => (
                 <RssTopRight></RssTopRight>
             ),
         }} headerShown={false} />
-        <Screen name='收藏' component={FavoriteScreen} />
+        <Screen name='Favorite' component={FavoriteScreen} />
         <Screen name='设置' component={SettingScreen} />
     </Navigator>
 );

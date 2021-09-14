@@ -12,16 +12,19 @@ const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
 );
 
-const EditIcon = (props) => (
-    <Icon {...props} name='edit' />
+const StarIcon = (props) => (
+    <Icon {...props} name='star' />
+);
+const StarOutLineIcon = (props) => (
+    <Icon {...props} name='star-outline' />
 );
 
 const MenuIcon = (props) => (
     <Icon {...props} name='more-vertical' />
 );
 
-const InfoIcon = (props) => (
-    <Icon {...props} name='info' />
+const BrowerIcon = (props) => (
+    <Icon {...props} name='globe' />
 );
 
 const LogoutIcon = (props) => (
@@ -47,12 +50,14 @@ const ItemDetailScreen = (props) => {
 
     const renderRightActions = () => (
         <React.Fragment>
-            <TopNavigationAction icon={EditIcon} />
+            <TopNavigationAction icon={BrowerIcon} />
+            <TopNavigationAction icon={StarIcon} />
+
             <OverflowMenu
                 anchor={renderMenuAction}
                 visible={menuVisible}
                 onBackdropPress={toggleMenu}>
-                <MenuItem accessoryLeft={InfoIcon} title='About' />
+
                 <MenuItem accessoryLeft={LogoutIcon} title='Logout' />
             </OverflowMenu>
         </React.Fragment>
