@@ -93,3 +93,25 @@ export const getChannelById = async (channelId) => {
         return {};
     }
 }
+
+export const getAllChannel = async () => {
+    let db = await getDatabase();
+    let result = await db.executeSql(`SELECT * FROM t_channel ORDER BY id DESC`);
+
+    let rows = result[0].rows;
+    let length = rows.length;
+    let list = [];
+    if (length > 0) {
+        for (let i = 0; i < length; i++) {
+            let item = rows.item(i);
+            list.push({
+                id: item.id,
+                title: item.title,
+                link: item.link,
+                description: item.description,
+                lastUpdated: item.lastUpdated
+            });
+        }
+    }
+    return list;
+}

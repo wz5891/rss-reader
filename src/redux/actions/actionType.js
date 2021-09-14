@@ -23,7 +23,8 @@ export const actionType = {
         pageQueryRejected: `CHANNEL_PAGEQUERY${ActionType.Rejected}`,
 
 
-        fetchChannelRss: 'ITEM_FETCH_NEW_ITEM',
+
+
 
 
     },

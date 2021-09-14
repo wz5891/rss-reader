@@ -152,6 +152,26 @@ export function fetchChannelRss(channelId) {
     }
 }
 
+export function fetchAllChannelRss() {
+    return function (dispatch) {
+        fetchAllChannel().then(() => {
+            dispatch({
+                type: actionType.channel.pageQueryPending,
+                payload: null
+            });
+        });
+    }
+}
+
+const fetchAllChannel = async () => {
+    let list = await channelApi.getAllChannel();
+    if (list.length > 0) {
+        for (let i = 0; i < list.length; i++) {
+            await fetchChannel(list[i].id);
+        }
+    }
+}
+
 
 const fetchChannel = async (channelId) => {
     let channel = await getChannelById(channelId);
