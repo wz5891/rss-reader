@@ -114,3 +114,27 @@ export function markItemRead(itemId) {
     }
 }
 
+
+
+export function markItemFavorite(itemId) {
+    return function (dispatch) {
+        itemApi.markItemFavorite(itemId).then(() => {
+            dispatch({
+                type: actionType.item.markItemFavorite,
+                payload: itemId
+            })
+        });
+    }
+}
+
+export function markItemUnFavorite(itemId) {
+    return function (dispatch) {
+        itemApi.markItemUnFavorite(itemId).then(() => {
+            dispatch({
+                type: actionType.item.markItemUnFavorite,
+                payload: itemId
+            })
+        });
+    }
+}
+

@@ -87,7 +87,6 @@ const ItemListScreen = (props) => {
     const renderItem = ({ item }) => {
         let id = item.get('id');
         let hasRead = item.get('hasRead');
-        console.log('hasRead=>', hasRead);
         return <TouchableOpacity onPress={() => {
             props.dispatch(setCurrentItemlId(id));
             props.navigation.navigate('ItemDetailScreen');

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text, Spinner } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { setCurrentItem } from '../redux/actions/itemAction';
+import { setCurrentItem, markItemFavorite, markItemUnFavorite } from '../redux/actions/itemAction';
 import RenderHtml from 'react-native-render-html';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useWindowDimensions } from 'react-native';
@@ -36,32 +36,50 @@ const ItemDetailScreen = (props) => {
     const [menuVisible, setMenuVisible] = React.useState(false);
 
     useEffect(() => {
-        props.dispatch(setCurrentItem(props.item.get('currentItemId')));
+        let currentItemId = props.item.get('currentItemId');
+        props.dispatch(setCurrentItem(currentItemId));
     }, [])
 
-    const toggleMenu = () => {
-        setMenuVisible(!menuVisible);
-    };
 
-    const renderMenuAction = () => (
-        <TopNavigationAction icon={MenuIcon} onPress={toggleMenu} />
-    );
+    const favoriteItem = () => {
+        let currentItemId = props.item.get('currentItemId');
+        props.dispatch(markItemFavorite(currentItemId));
+    }
+
+    const unFavoriteItem = () => {
+        let currentItemId = props.item.get('currentItemId');
+        props.dispatch(markItemUnFavorite(currentItemId));
+    }
+
+    const openBrowser = () => {
+        let currentItem = props.item.get('currentItem');
+
+        var link = currentItem.get('link');
+
+        Linking.canOpenURL(link).then(supported => {
+            if (!supported) {
+                alert('Can\'t handle url: ' + link);
+            } else {
+                return Linking.openURL(link);
+            }
+        }).catch(err => alert('An error occurred', link));
+    }
 
 
-    const renderRightActions = () => (
-        <React.Fragment>
-            <TopNavigationAction icon={BrowerIcon} />
-            <TopNavigationAction icon={StarIcon} />
+    const renderRightActions = () => {
+        let currentItem = props.item.get('currentItem');
+        return <React.Fragment>
+            <TopNavigationAction icon={BrowerIcon} onPress={openBrowser} />
 
-            <OverflowMenu
-                anchor={renderMenuAction}
-                visible={menuVisible}
-                onBackdropPress={toggleMenu}>
+            {(currentItem.get('hasFavorite') == 0 || currentItem.get('hasFavorite') == null) &&
+                <TopNavigationAction icon={StarOutLineIcon} onPress={favoriteItem} />
+            }
 
-                <MenuItem accessoryLeft={LogoutIcon} title='Logout' />
-            </OverflowMenu>
+            {currentItem.get('hasFavorite') == 1 &&
+                <TopNavigationAction icon={StarIcon} onPress={unFavoriteItem} />
+            }
         </React.Fragment>
-    );
+    }
 
     const renderBackAction = () => (
         <TopNavigationAction icon={BackIcon} onPress={() => {
@@ -120,7 +138,7 @@ const ItemDetailScreen = (props) => {
                     <RenderHtml
                         contentWidth={width}
                         source={{
-                            html: props.item.get('currentItem').get('content') ? props.item.get('currentItem').get('content') : props.item.get('currentItem').get('description')
+                            html: props.item.get('currentItem').get('content')
                         }}
                         ignoredDomTags={['iframe']}
                     />

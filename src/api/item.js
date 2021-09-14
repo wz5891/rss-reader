@@ -38,7 +38,8 @@ export const getItemById = async (itemId) => {
             publishedTime: item.published_time,
             content: item.content,
             imageUrl: item.image_url,
-            hasRead: item.has_read
+            hasRead: item.has_read,
+            hasFavorite: item.has_favorite
         });
     } else {
         return [];
@@ -90,7 +91,8 @@ const pageQueryResult = (totalNumber, pageResult) => {
                 description: item.description,
                 publishedTime: item.published_time,
                 imageUrl: item.image_url,
-                hasRead: item.has_read
+                hasRead: item.has_read,
+                hasFavorite: item.has_favorite
             });
         }
     }
@@ -124,4 +126,16 @@ export const markItemUnRead = async (itemId) => {
 export const markItemRead = async (itemId) => {
     let db = await getDatabase();
     await db.executeSql(`UPDATE t_item SET has_read=1 WHERE id= ${itemId}`);
+}
+
+
+export const markItemFavorite = async (itemId) => {
+    let db = await getDatabase();
+    await db.executeSql(`UPDATE t_item SET has_favorite=1 WHERE id= ${itemId}`);
+}
+
+
+export const markItemUnFavorite = async (itemId) => {
+    let db = await getDatabase();
+    await db.executeSql(`UPDATE t_item SET has_favorite=0 WHERE id= ${itemId}`);
 }

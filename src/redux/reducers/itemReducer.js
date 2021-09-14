@@ -127,3 +127,26 @@ reducer.prototype[actionType.item.markItemUnRead] = (state, action) => {
     }));
 }
 
+
+
+reducer.prototype[actionType.item.markItemFavorite] = (state, action) => {
+    return state.updateIn('pageQuery.dataList'.split('.'), list => list.map(item => {
+        if (item.get('id') == action.payload) {
+            return item.set('hasFavorite', 1);
+        } else {
+            return item;
+        }
+    })).set('currentItem', state.get('currentItem').set('hasFavorite', 1));
+}
+
+reducer.prototype[actionType.item.markItemUnFavorite] = (state, action) => {
+    return state.updateIn('pageQuery.dataList'.split('.'), list => list.map(item => {
+        if (item.get('id') == action.payload) {
+            return item.set('hasFavorite', 0);
+        } else {
+            return item;
+        }
+    })).set('currentItem', state.get('currentItem').set('hasFavorite', 0));
+}
+
+

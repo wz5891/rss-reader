@@ -27,7 +27,7 @@ export default function reducer(state = initialState(), action) {
 
 
 // 下拉刷新
-reducer.prototype[actionType.item.refreshPrepare] = (state, action) => {
+reducer.prototype[actionType.favorite.refreshPrepare] = (state, action) => {
     return state
         .setIn('pageQuery.pageIndex'.split('.'), 1)
         .setIn('pageQuery.totalNumber'.split('.'), 0)
@@ -36,13 +36,13 @@ reducer.prototype[actionType.item.refreshPrepare] = (state, action) => {
 }
 
 // 分页查询
-reducer.prototype[actionType.item.pageQueryPending] = (state, action) => {
+reducer.prototype[actionType.favorite.pageQueryPending] = (state, action) => {
     return state
         .setIn('pageQuery.loading'.split('.'), true)
         .setIn('pageQuery.errorMsg'.split('.'), '');
 }
 
-reducer.prototype[actionType.item.pageQueryFulfilled] = (state, action) => {
+reducer.prototype[actionType.favorite.pageQueryFulfilled] = (state, action) => {
     let hasMore = false;
     let totalNumber = action.payload.totalNumber;
     let pageIndex = state.get('pageQuery').get('pageIndex');
@@ -66,7 +66,7 @@ reducer.prototype[actionType.item.pageQueryFulfilled] = (state, action) => {
         .setIn('pageQuery.errorMsg'.split('.'), '');
 }
 
-reducer.prototype[actionType.item.pageQueryRejected] = (state, action) => {
+reducer.prototype[actionType.favorite.pageQueryRejected] = (state, action) => {
     return state
         .setIn('pageQuery.refreshing'.split('.'), false)
         .setIn('pageQuery.loading'.split('.'), false)

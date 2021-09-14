@@ -43,6 +43,9 @@ export const actionType = {
         markItemUnRead: 'ITEM_MARK_ITEM_UNREAD',
         markItemRead: 'ITEM_MARK_ITEM_READ',
 
+        markItemUnFavorite: 'ITEM_MARK_ITEM_UN_FAVORITE',
+        markItemFavorite: 'ITEM_MARK_ITEM_FAVORITE',
+
         setOperateModalVisble: 'SET_OPERATE_MODAL_VISBLE'
     },
     favorite: {

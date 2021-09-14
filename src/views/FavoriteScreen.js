@@ -64,19 +64,19 @@ const FavoriteScreen = (props) => {
     }
 
     const onRefresh = () => {
-        let loading = props.item.get('pageQuery').get('loading');
+        let loading = props.favorite.get('pageQuery').get('loading');
         if (!loading) {
-            let pageSize = props.item.get('pageQuery').get('pageSize');
+            let pageSize = props.favorite.get('pageQuery').get('pageSize');
             props.dispatch(refresh(pageSize));
         }
     }
     const onEndReached = () => {
-        let loading = props.item.get('pageQuery').get('loading');
+        let loading = props.favorite.get('pageQuery').get('loading');
         if (!loading) {
-            let hasMore = props.item.get('pageQuery').get('hasMore');
+            let hasMore = props.favorite.get('pageQuery').get('hasMore');
             if (hasMore) {
-                let pageIndex = props.item.get('pageQuery').get('pageIndex');
-                let pageSize = props.item.get('pageQuery').get('pageSize');
+                let pageIndex = props.favorite.get('pageQuery').get('pageIndex');
+                let pageSize = props.favorite.get('pageQuery').get('pageSize');
                 props.dispatch(pageQuery(pageIndex, pageSize));
             }
         }
@@ -92,7 +92,7 @@ const FavoriteScreen = (props) => {
                 height: 50
             }}>
                 {
-                    props.item.get('pageQuery').get('loading') == true &&
+                    props.favorite.get('pageQuery').get('loading') == true &&
                     <Layout style={{
                         flex: 1,
                         flexDirection: 'row',
@@ -106,12 +106,12 @@ const FavoriteScreen = (props) => {
                 }
 
                 {
-                    props.item.get('pageQuery').get('loading') == false && props.item.get('pageQuery').get('hasMore') == false &&
+                    props.favorite.get('pageQuery').get('loading') == false && props.favorite.get('pageQuery').get('hasMore') == false &&
                     <Text category="p2">-没有更多啦-</Text>
                 }
 
                 {
-                    props.item.get('pageQuery').get('loading') == false && props.item.get('pageQuery').get('hasMore') == true &&
+                    props.favorite.get('pageQuery').get('loading') == false && props.favorite.get('pageQuery').get('hasMore') == true &&
                     <Text category="p2">上拉加载更多</Text>
                 }
 
@@ -121,13 +121,13 @@ const FavoriteScreen = (props) => {
     return (
         <Layout style={styles.container} level='1'>
             <FlatList
-                data={props.item.get('pageQuery').get('dataList').toArray()}
+                data={props.favorite.get('pageQuery').get('dataList').toArray()}
                 renderItem={renderItem}
                 keyExtractor={(item) => {
                     return item.get('id')
                 }}
                 onRefresh={onRefresh}
-                refreshing={props.item.get('pageQuery').get('refreshing')}
+                refreshing={props.favorite.get('pageQuery').get('refreshing')}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={ListFooterComponent}
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => {
-    const { item } = state
-    return { item }
+    const { favorite } = state
+    return { favorite }
 };
 
 export default connect(mapStateToProps)(FavoriteScreen);
