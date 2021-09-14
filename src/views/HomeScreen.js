@@ -8,6 +8,7 @@ import SettingScreen from './SettingScreen';
 import ChannelListHeader from './header/ChannelListHeader';
 import { getHeaderTitle } from '@react-navigation/elements';
 import FavoriteHeader from './header/FavoriteHeader';
+import SettingHeader from './header/SettingHeader';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const ChannelIcon = (props) => (
@@ -26,23 +27,23 @@ const SettingIcon = (props) => (
 const header = ({ navigation, route, options }) => {
     let name = route.name;
 
+    console.log('--------------->', name);
     if (name == 'ChannelList') {
         return <ChannelListHeader />;
-    } else if (name = 'Favorite') {
+    } else if (name == 'Favorite') {
         return <FavoriteHeader />;
+    } else if (name == 'Setting') {
+        return <SettingHeader />;
     }
 
-    const title = getHeaderTitle(options, route.name);
-    console.log(route.name);
-
-    return <MyHeader title={title} style={options.headerStyle} />;
+    //const title = getHeaderTitle(options, route.name);
+    // return <MyHeader title={title} style={options.headerStyle} />;
 };
 
 const MyHeader = ({ title, style }) => {
     return (
         <Layout>
-            <Text>{title}
-            </Text>
+            <Text>{title}</Text>
         </Layout>);
 }
 
@@ -60,14 +61,9 @@ const TabNavigator = () => (
     <Navigator tabBar={props => <BottomTabBar {...props} />} screenOptions={{
         header: header
     }}  >
-        <Screen name="ChannelList" component={ChannelListScreen} options={{
-            title: '订阅',
-            headerRight: () => (
-                <RssTopRight></RssTopRight>
-            ),
-        }} headerShown={false} />
+        <Screen name="ChannelList" component={ChannelListScreen} />
         <Screen name='Favorite' component={FavoriteScreen} />
-        <Screen name='设置' component={SettingScreen} />
+        <Screen name='Setting' component={SettingScreen} />
     </Navigator>
 );
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationAction, Text, Spinner } from '@ui-kitten/components';
 import { StyleSheet, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { setCurrentItem, markItemFavorite, markItemUnFavorite } from '../redux/actions/itemAction';
+import { setCurrentItem, markItemFavorite, markItemUnFavorite, markItemRead } from '../redux/actions/itemAction';
 import RenderHtml from 'react-native-render-html';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useWindowDimensions } from 'react-native';
@@ -38,6 +38,8 @@ const ItemDetailScreen = (props) => {
     useEffect(() => {
         let currentItemId = props.item.get('currentItemId');
         props.dispatch(setCurrentItem(currentItemId));
+
+        props.dispatch(markItemRead(currentItemId));
     }, [])
 
 

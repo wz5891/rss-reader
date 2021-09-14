@@ -42,31 +42,6 @@ export const saveChannelToDb = async ({ title, link, description, lastUpdated })
     return id;
 }
 
-
-export const pageListFromDb = async (page, size) => {
-    let db = await getDatabase();
-    let result = await db.executeSql(`SELECT * FROM t_channel ORDER BY id DESC limit ${size} offset ${(page - 1) * size}`);
-
-    let rows = result[0].rows;
-    let length = rows.length;
-    if (length > 0) {
-        let list = [];
-        for (let i = 0; i < length; i++) {
-            let item = rows.item(i);
-            list.push({
-                id: item.id,
-                title: item.title,
-                link: item.link,
-                description: item.description,
-                lastUpdated: item.lastUpdated
-            });
-        }
-        return list;
-    } else {
-        return [];
-    }
-}
-
 export const pageQuery = async (page, size) => {
     let db = await getDatabase();
     // 先查询数据总条数
@@ -74,7 +49,7 @@ export const pageQuery = async (page, size) => {
     let totalNumber = totalNumberResult[0].rows.item(0).totalNumber;
 
     // 再查询当前页的数据
-    let pageResult = await db.executeSql(`SELECT * FROM t_channel ORDER BY id DESC limit ${size} offset ${(page - 1) * size}`);
+    let pageResult = await db.executeSql(`SELECT t.*,( SELECT count(1) FROM t_item i WHERE i.channel_id = t.id AND i.has_read = 0 ) AS un_read_number FROM t_channel t ORDER BY t.id DESC limit ${size} offset ${(page - 1) * size}`);
     let rows = pageResult[0].rows;
     let length = rows.length;
     let list = [];
@@ -86,7 +61,8 @@ export const pageQuery = async (page, size) => {
                 title: item.title,
                 link: item.link,
                 description: item.description,
-                lastUpdated: item.lastUpdated
+                lastUpdated: item.lastUpdated,
+                unReadNumber: item.un_read_number
             });
         }
     }

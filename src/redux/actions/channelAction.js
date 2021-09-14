@@ -1,4 +1,4 @@
-import { fetchAndSaveRss, fetchRss, getChannelById, pageListFromDb, saveChannelToDb } from '../../api/channel';
+import { fetchAndSaveRss, fetchRss, getChannelById, saveChannelToDb } from '../../api/channel';
 
 import * as channelApi from '../../api/channel';
 import { existsByGid, markAllReadByChannelId, saveItemToDb } from '../../api/item';

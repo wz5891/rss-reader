@@ -17,26 +17,16 @@ const ChannelListScreen = (props) => {
             props.dispatch(setCurrentChannelId(id));
             props.navigation.navigate('ItemListScreen');
         }}>
-            <Layout style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingTop: 10,
-                paddingBottom: 10,
-                borderBottomColor: '#8F9BB3',
-                borderBottomWidth: 1,
-                borderRadius: 1
-            }}>
+            <Layout style={styles.item}>
                 <Icon style={{
-                    width: 24,
-                    height: 24,
+                    width: 20,
+                    height: 20,
                 }} name='cast-outline' fill='#8F9BB3' />
 
-                <Text style={{ flex: 1, marginLeft: 15, marginRight: 10 }} category="p1">{item.get('title')}</Text>
+                <Text style={{ flex: 1, marginLeft: 12, }} category="p2">{item.get('title')}</Text>
 
 
-                <Text category="c2">10</Text>
+                <Text category="c2">{item.get('unReadNumber')}</Text>
 
             </Layout>
         </TouchableWithoutFeedback>
@@ -98,7 +88,7 @@ const ChannelListScreen = (props) => {
     }
 
     return (
-        <View style={{ flex: 1 }}>
+        <Layout style={styles.content}>
             <FlatList
                 data={props.channel.get('pageQuery').get('dataList').toArray()}
                 renderItem={renderItem}
@@ -114,11 +104,27 @@ const ChannelListScreen = (props) => {
                 showsVerticalScrollIndicator={false}
             />
             <AddChannelScreen />
-        </View>
+        </Layout>
     );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    content: {
+        flex: 1,
+        display: 'flex',
+        padding: 10
+    },
+    item: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingTop: 12,
+        paddingBottom: 12,
+        borderBottomColor: '#8F9BB3',
+        borderBottomWidth: 0.5,
+    }
+});
 
 
 const mapStateToProps = (state) => {

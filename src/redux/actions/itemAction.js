@@ -1,4 +1,4 @@
-import { getItemById, pageListFromDb } from '../../api/item';
+import { getItemById } from '../../api/item';
 import { actionType } from './actionType';
 import * as itemApi from '../../api/item';
 
