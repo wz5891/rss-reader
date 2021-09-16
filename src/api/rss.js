@@ -1,9 +1,9 @@
 import * as rssParser from 'react-native-rss-parser';
+import axios from 'axios';
 
 export const fetchRss = async (link) => {
-
-    let response = await fetch(link);
-    let text = await response.text();
+    let response = await axios.get(link);
+    let text = response.data;
 
     let rss = await rssParser.parse(text);
 

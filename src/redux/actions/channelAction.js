@@ -1,7 +1,7 @@
 import { getChannelById, saveChannelToDb } from '../../api/channel';
 
 import * as channelApi from '../../api/channel';
-import { existsByGid, existsByLink, markAllReadByChannelId, saveItemToDb, saveToDb } from '../../api/item';
+import { existsByGid, existsByLink, fetchAndSaveRssItem, markAllReadByChannelId, saveItemToDb, saveToDb } from '../../api/item';
 import { actionType } from '../actions/actionType';
 import { getFirstImageUrl } from '../../util/StringUitl';
 import { fetchRss } from '../../api/rss';
@@ -58,6 +58,7 @@ const saveChannel = async (url, dispatch) => {
     } catch (e) {
         debugger;
         console.log(e);
+        alert(JSON.stringify(e));
         dispatch({
             type: actionType.channel.channelAddRejected,
             payload: e.message
@@ -165,7 +166,7 @@ const fetchAllChannel = async () => {
     if (list.length > 0) {
         for (let i = 0; i < list.length; i++) {
             let channel = await getChannelById(list[i].id);
-            await fetchAndSaveRssItem(channel.link);
+            await fetchAndSaveRssItem(channel.id, channel.link);
         }
     }
 }
