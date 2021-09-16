@@ -1,7 +1,7 @@
 import { fetchAndSaveRss, fetchRss, getChannelById, saveChannelToDb } from '../../api/channel';
 
 import * as channelApi from '../../api/channel';
-import { existsByGid, markAllReadByChannelId, saveItemToDb } from '../../api/item';
+import { existsByGid, existsByLink, markAllReadByChannelId, saveItemToDb } from '../../api/item';
 import { actionType } from '../actions/actionType';
 import { getFirstImageUrl } from '../../util/StringUitl';
 
@@ -94,19 +94,12 @@ const saveToDb = async (item, channelId) => {
 }
 
 
-export function pageQuery(page, size, refresh) {
+export function pageQuery(page, size) {
     return function (dispatch) {
-        if (refresh) {
-            dispatch({
-                type: actionType.channel.refreshPrepare,
-                payload: null
-            });
-        } else {
-            dispatch({
-                type: actionType.channel.pageQueryPending,
-                payload: null
-            });
-        }
+        dispatch({
+            type: actionType.channel.pageQueryPending,
+            payload: null
+        });
 
         channelApi.pageQuery(page, size).then(data => {
             dispatch({
@@ -127,9 +120,33 @@ export function pageQuery(page, size, refresh) {
 }
 
 export function refresh(size) {
-    return pageQuery(1, size, true);
+    return function (dispatch) {
+        doRefresh(size, dispatch).then(() => { });
+    }
 }
 
+const doRefresh = async (size, dispatch) => {
+    dispatch({
+        type: actionType.channel.refreshPending,
+        payload: null
+    });
+
+    channelApi.pageQuery(1, size).then(data => {
+        dispatch({
+            type: actionType.channel.refreshFulfilled,
+            payload: {
+                totalNumber: data.totalNumber,
+                list: data.list,
+                page: 1
+            }
+        });
+    }, error => {
+        dispatch({
+            type: actionType.channel.refreshRejected,
+            payload: error.message
+        });
+    });
+}
 
 export function setCurrentChannelId(channelId) {
     return {
@@ -170,7 +187,7 @@ export function fetchChannelRss(channelId) {
     }
 }
 
-export function fetchAllChannelRss() {
+export function fetchAllChannelRss(size) {
     return function (dispatch) {
         dispatch({
             type: actionType.channel.fetchAllChannelPending,
@@ -182,6 +199,7 @@ export function fetchAllChannelRss() {
                 payload: null
             });
 
+            doRefresh(size, dispatch).then(() => { });
         }, error => {
             dispatch({
                 type: actionType.channel.fetchAllChannelRejected,
@@ -210,12 +228,19 @@ const fetchChannel = async (channelId) => {
         console.log('更新到文章：' + items.length);
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
-            let exists = await existsByGid(item.id, channelId);
+            // debugger;
+            let exists = true;
+            if (item.id) {
+                exists = await existsByGid(item.id, channelId);
+            } else {
+                let link = item.links[0].url;
+                exists = await existsByLink(link, channelId);
+            }
             if (!exists) {
-                console.log('存储文章:' + item.id);
+                console.log('存储文章:' + (item.id ? item.id : item.links[0].url));
                 await saveToDb(item, channelId);
             } else {
-                console.log('文章已存在:' + item.id);
+                console.log('文章已存在:' + (item.id ? item.id : item.links[0].url));
             }
         }
     } else {

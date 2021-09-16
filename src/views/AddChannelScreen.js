@@ -24,7 +24,7 @@ const AddChannelScreen = (props) => {
             return;
         }
         props.dispatch(addChannel(url));
-        setUrl('');
+        // setUrl('');
     }
 
     const Header = (props) => (

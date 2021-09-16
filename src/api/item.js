@@ -21,6 +21,18 @@ export const existsByGid = async (gid, channelId) => {
     }
 }
 
+export const existsByLink = async (link, channelId) => {
+    let db = await getDatabase();
+    let result = await db.executeSql(`SELECT count(1) as size FROM t_item WHERE channel_id=${channelId} AND link= '${link}'`);
+    let size = result[0].rows.item(0).size;
+    if (size > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 
 export const getItemById = async (itemId) => {
     let db = await getDatabase();

@@ -20,6 +20,12 @@ export const actionType = {
         channelAddRejected: `CHANNEL_ADD${ActionType.Rejected}`,
 
         refreshPrepare: 'CHANNEL_REFRESH_PREPARE',
+
+        refreshPending: `CHANNEL_REFRESH${ActionType.Pending}`,
+        refreshFulfilled: `CHANNEL_REFRESH${ActionType.Fulfilled}`,
+        refreshRejected: `CHANNEL_REFRESH${ActionType.Rejected}`,
+
+
         pageQueryPending: `CHANNEL_PAGEQUERY${ActionType.Pending}`,
         pageQueryFulfilled: `CHANNEL_PAGEQUERY${ActionType.Fulfilled}`,
         pageQueryRejected: `CHANNEL_PAGEQUERY${ActionType.Rejected}`,

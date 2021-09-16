@@ -58,7 +58,7 @@ const ChannelListHeader = (props) => {
                 props.channel.get('fetchAll').get('loading') == false &&
                 <TopNavigationAction icon={SyncIcon} onPress={() => {
                     startAnimate();
-                    props.dispatch(fetchAllChannelRss());
+                    props.dispatch(fetchAllChannelRss(props.channel.get('pageQuery').get('pageSize')));
                 }} />
             }
 
