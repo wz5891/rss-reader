@@ -1,9 +1,10 @@
-import { fetchAndSaveRss, fetchRss, getChannelById, saveChannelToDb } from '../../api/channel';
+import { getChannelById, saveChannelToDb } from '../../api/channel';
 
 import * as channelApi from '../../api/channel';
-import { existsByGid, existsByLink, markAllReadByChannelId, saveItemToDb } from '../../api/item';
+import { existsByGid, existsByLink, markAllReadByChannelId, saveItemToDb, saveToDb } from '../../api/item';
 import { actionType } from '../actions/actionType';
 import { getFirstImageUrl } from '../../util/StringUitl';
+import { fetchRss } from '../../api/rss';
 
 export function setAddChannelModalVisble(visble) {
     return {
@@ -12,12 +13,7 @@ export function setAddChannelModalVisble(visble) {
     }
 }
 
-export function setSingleChannelMenuVisble(visble) {
-    return {
-        type: actionType.channel.setSingleChannelMenuVisble,
-        payload: visble
-    }
-}
+
 
 
 export function addChannel(url) {
@@ -56,6 +52,9 @@ const saveChannel = async (url, dispatch) => {
             type: actionType.channel.setAddChannelModalVisble,
             payload: false
         });
+
+
+        doRefresh(10, dispatch);
     } catch (e) {
         debugger;
         console.log(e);
@@ -64,33 +63,6 @@ const saveChannel = async (url, dispatch) => {
             payload: e.message
         });
     }
-}
-
-const saveToDb = async (item, channelId) => {
-    let description = item.description;
-    let content = item.content;
-    if (!content) {
-        content = item.description;
-    }
-    if (!description) {
-        description = item.content;
-    }
-    if (description) {
-        description = description.substr(0, 300);
-    }
-    // 查找第一张图片
-    let imageUrl = getFirstImageUrl(content);
-
-    await saveItemToDb({
-        gid: item.id,
-        channelId: channelId,
-        title: item.title,
-        link: item.links[0].url,
-        description: description,
-        lastUpdated: item.published,
-        content: content,
-        imageUrl: imageUrl
-    });
 }
 
 
@@ -166,27 +138,6 @@ export function setCurrentChannel(channelId) {
     }
 }
 
-
-export function fetchChannelRss(channelId) {
-    return function (dispatch) {
-        dispatch({
-            type: actionType.channel.fetchSingleChannelPending,
-            payload: null
-        });
-        fetchChannel(channelId).then(() => {
-            dispatch({
-                type: actionType.channel.fetchSingleChannelFulfilled,
-                payload: null
-            });
-        }, error => {
-            dispatch({
-                type: actionType.channel.fetchSingleChannelRejected,
-                payload: null
-            });
-        });
-    }
-}
-
 export function fetchAllChannelRss(size) {
     return function (dispatch) {
         dispatch({
@@ -213,39 +164,8 @@ const fetchAllChannel = async () => {
     let list = await channelApi.getAllChannel();
     if (list.length > 0) {
         for (let i = 0; i < list.length; i++) {
-            await fetchChannel(list[i].id);
+            let channel = await getChannelById(list[i].id);
+            await fetchAndSaveRssItem(channel.link);
         }
     }
 }
-
-
-const fetchChannel = async (channelId) => {
-    let channel = await getChannelById(channelId);
-    let rss = await fetchRss(channel.link);
-
-    let items = rss.items;
-    if (items.length > 0) {
-        console.log('更新到文章：' + items.length);
-        for (let i = 0; i < items.length; i++) {
-            let item = items[i];
-            // debugger;
-            let exists = true;
-            if (item.id) {
-                exists = await existsByGid(item.id, channelId);
-            } else {
-                let link = item.links[0].url;
-                exists = await existsByLink(link, channelId);
-            }
-            if (!exists) {
-                console.log('存储文章:' + (item.id ? item.id : item.links[0].url));
-                await saveToDb(item, channelId);
-            } else {
-                console.log('文章已存在:' + (item.id ? item.id : item.links[0].url));
-            }
-        }
-    } else {
-        console.log('没有文章更新');
-    }
-}
-
-

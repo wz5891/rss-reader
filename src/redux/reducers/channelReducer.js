@@ -5,7 +5,7 @@ import { act } from 'react-test-renderer';
 function initialState() {
     return fromJS({
         channelModalVisble: false,
-        singleChannelMenuVisble: false,
+
 
         pageQuery: {
             pageSize: 10,
@@ -30,7 +30,7 @@ function initialState() {
             loading: false
         },
 
-        fetchingSingle: false
+
     });
 }
 
@@ -165,21 +165,6 @@ reducer.prototype[actionType.channel.fetchAllChannelFulfilled] = (state, action)
 reducer.prototype[actionType.channel.fetchAllChannelRejected] = (state, action) => {
     return state
         .setIn('fetchAll.loading'.split('.'), false);
-}
-
-// 更新某个
-reducer.prototype[actionType.channel.fetchSingleChannelPending] = (state, action) => {
-    return state.set('fetchingSingle', true);
-}
-reducer.prototype[actionType.channel.fetchSingleChannelFulfilled] = (state, action) => {
-    return state.set('fetchingSingle', false);
-}
-reducer.prototype[actionType.channel.fetchSingleChannelRejected] = (state, action) => {
-    return state.set('fetchingSingle', false);
-}
-
-reducer.prototype[actionType.channel.setSingleChannelMenuVisble] = (state, action) => {
-    return state.set('singleChannelMenuVisble', action.payload);
 }
 
 

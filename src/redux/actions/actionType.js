@@ -8,7 +8,7 @@ export const actionType = {
     },
     channel: {
         setAddChannelModalVisble: 'SET_ADD_CHANNEL_MODAL_VISBLE',
-        setSingleChannelMenuVisble: 'SET_SINGLE_CHANNEL_MENU_VISBLE',
+
 
         setCurrentChannelId: 'SET_CURRENT_CHANNEL_ID',
         setCurrentChannel: 'SET_CURRENT_CHANNEL',
@@ -18,8 +18,6 @@ export const actionType = {
         channelAddPending: `CHANNEL_ADD${ActionType.Pending}`,
         channelAddFulfilled: `CHANNEL_ADD${ActionType.Fulfilled}`,
         channelAddRejected: `CHANNEL_ADD${ActionType.Rejected}`,
-
-        refreshPrepare: 'CHANNEL_REFRESH_PREPARE',
 
         refreshPending: `CHANNEL_REFRESH${ActionType.Pending}`,
         refreshFulfilled: `CHANNEL_REFRESH${ActionType.Fulfilled}`,
@@ -37,16 +35,17 @@ export const actionType = {
         fetchAllChannelRejected: `CHANNEL_FETCH_ALL${ActionType.Rejected}`,
 
 
-        fetchSingleChannelPending: `CHANNEL_FETCH_SINGLE${ActionType.Pending}`,
-        fetchSingleChannelFulfilled: `CHANNEL_FETCH_SINGLE${ActionType.Fulfilled}`,
-        fetchSingleChannelRejected: `CHANNEL_FETCH_SINGLE${ActionType.Rejected}`,
+
     },
     item: {
         setItemList: 'SET_ITEM_LIST',
         setCurrentItemlId: 'SET_CURRENT_ITEM_ID',
         setCurrentItem: 'SET_CURRENT_ITEM',
 
-        refreshPrepare: 'ITEM_REFRESH_PREPARE',
+        refreshPending: `ITEM_REFRESH${ActionType.Pending}`,
+        refreshFulfilled: `ITEM_REFRESH${ActionType.Fulfilled}`,
+        refreshRejected: `ITEM_REFRESH${ActionType.Rejected}`,
+
         pageQueryPending: `ITEM_PAGEQUERY${ActionType.Pending}`,
         pageQueryFulfilled: `ITEM_PAGEQUERY${ActionType.Fulfilled}`,
         pageQueryRejected: `ITEM_PAGEQUERY${ActionType.Rejected}`,
@@ -60,7 +59,13 @@ export const actionType = {
         markItemUnFavorite: 'ITEM_MARK_ITEM_UN_FAVORITE',
         markItemFavorite: 'ITEM_MARK_ITEM_FAVORITE',
 
-        setOperateModalVisble: 'SET_OPERATE_MODAL_VISBLE'
+        setOperateModalVisble: 'SET_OPERATE_MODAL_VISBLE',
+
+        fetchAndSaveRssItemPending: `ITEM_FETCH_AND_SAVE_RSS${ActionType.Pending}`,
+        fetchAndSaveRssItemFulfilled: `ITEM_FETCH_AND_SAVE_RSS${ActionType.Fulfilled}`,
+        fetchAndSaveRssItemRejected: `ITEM_FETCH_AND_SAVE_RSS${ActionType.Rejected}`,
+
+        setSingleChannelMenuVisble: 'SET_SINGLE_CHANNEL_MENU_VISBLE',
     },
     favorite: {
         refreshPrepare: 'FAVORITE_REFRESH_PREPARE',

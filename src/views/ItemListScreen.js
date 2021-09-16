@@ -3,10 +3,11 @@ import { Icon, Layout, MenuItem, OverflowMenu, TopNavigation, TopNavigationActio
 import { FlatList, StyleSheet, TouchableOpacity, Image, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import { markAllRead, markAllUnRead, pageQuery, refresh, setCurrentItem, setCurrentItemlId, setOperateModalVisble } from '../redux/actions/itemAction';
-import { fetchChannelRss, setCurrentChannel, setSingleChannelMenuVisble } from '../redux/actions/channelAction';
+import { fetchChannelRss, setSingleChannelMenuVisble } from '../redux/actions/itemAction';
 import moment from 'moment';
 import ItemOperateModal from './ItemOperateModal';
 import { cutString } from '../util/StringUitl';
+import { setCurrentChannel } from '../redux/actions/channelAction';
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
@@ -96,7 +97,7 @@ const ItemListScreen = (props) => {
     const renderRightActions = () => (
         <React.Fragment>
             {
-                props.channel.get('fetchingSingle') == true &&
+                props.item.get('fetchingSingle') == true &&
                 <Animated.View
                     style={{
                         transform: [{ rotateZ: rotateZ }],
@@ -105,10 +106,12 @@ const ItemListScreen = (props) => {
                 </Animated.View>
             }
             {
-                props.channel.get('fetchingSingle') == false &&
-                <TopNavigationAction icon={SyncIcon} onPress={() => {
-                    freshRss();
-                }} />
+                props.item.get('fetchingSingle') == false &&
+                <>
+                    <TopNavigationAction icon={SyncIcon} onPress={() => {
+                        freshRss();
+                    }} />
+                </>
             }
 
             <OverflowMenu
@@ -116,7 +119,7 @@ const ItemListScreen = (props) => {
                     width: 150
                 }}
                 anchor={renderMenuAction}
-                visible={props.channel.get('singleChannelMenuVisble')}
+                visible={props.item.get('singleChannelMenuVisble')}
                 onBackdropPress={toggleMenu}>
 
                 <MenuItem accessoryLeft={CheckIcon} title='全标为已读' onPress={markAllReadAction} />

@@ -1,25 +1,5 @@
-import * as rssParser from 'react-native-rss-parser';
+import moment from 'moment';
 import { getDatabase } from '../db/Database';
-export const fetchRss = async (link) => {
-
-    let response = await fetch(link);
-    let text = await response.text();
-
-    let rss = await rssParser.parse(text);
-
-    let title = rss.title;
-
-    let description = rss.description;
-    let lastUpdated = rss.lastUpdated;
-    let items = rss.items;
-
-
-    return {
-        title, link, description, lastUpdated, items
-    };
-}
-
-
 
 export const saveChannelToDb = async ({ title, link, description, lastUpdated }) => {
     let db = await getDatabase();
@@ -31,6 +11,7 @@ export const saveChannelToDb = async ({ title, link, description, lastUpdated })
     }
 
     let id = null;
+    lastUpdated = moment(lastUpdated).format('yyyy-MM-DD HH:mm:ss');
     await db.transaction(async (tx) => {
         let r = await tx.executeSql(
             'INSERT INTO t_channel(title,link,description,updated_time) VALUES (?,?,?,?)',

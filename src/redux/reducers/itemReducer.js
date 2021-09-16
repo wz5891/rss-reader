@@ -18,6 +18,9 @@ function initialState() {
             hasMore: true,
             errorMsg: ''
         },
+
+        fetchingSingle: false,
+        singleChannelMenuVisble: false,
     });
 }
 
@@ -40,13 +43,45 @@ reducer.prototype[actionType.item.setCurrentItem] = (state, action) => {
 }
 
 // 下拉刷新
-reducer.prototype[actionType.item.refreshPrepare] = (state, action) => {
+reducer.prototype[actionType.item.refreshPending] = (state, action) => {
     return state
-        .setIn('pageQuery.pageIndex'.split('.'), 1)
-        .setIn('pageQuery.totalNumber'.split('.'), 0)
-        .setIn('pageQuery.dataList'.split('.'), fromJS([]))
-        .setIn('pageQuery.refreshing'.split('.'), true);
+        .setIn('pageQuery.refreshing'.split('.'), true)
+        .setIn('pageQuery.loading'.split('.'), false)
+        .setIn('pageQuery.errorMsg'.split('.'), '')
+        .setIn('pageQuery.pageIndex'.split('.'), 1);
 }
+
+reducer.prototype[actionType.item.refreshFulfilled] = (state, action) => {
+    let hasMore = false;
+    let totalNumber = action.payload.totalNumber;
+    let pageIndex = state.get('pageQuery').get('pageIndex');
+    let pageSize = state.get('pageQuery').get('pageSize');
+
+    if (totalNumber > pageIndex * pageSize) {
+        hasMore = true;
+    }
+
+    if (hasMore) {
+        pageIndex = pageIndex + 1;
+    }
+
+    return state
+        .setIn('pageQuery.pageIndex'.split('.'), pageIndex)
+        .setIn('pageQuery.totalNumber'.split('.'), totalNumber)
+        .setIn('pageQuery.dataList'.split('.'), fromJS(action.payload.list))
+        .setIn('pageQuery.refreshing'.split('.'), false)
+        .setIn('pageQuery.loading'.split('.'), false)
+        .setIn('pageQuery.hasMore'.split('.'), hasMore)
+        .setIn('pageQuery.errorMsg'.split('.'), '');
+}
+
+reducer.prototype[actionType.item.refreshRejected] = (state, action) => {
+    return state
+        .setIn('pageQuery.refreshing'.split('.'), false)
+        .setIn('pageQuery.loading'.split('.'), false)
+        .setIn('pageQuery.errorMsg'.split('.'), action.payload);
+}
+
 
 // 分页查询
 reducer.prototype[actionType.item.pageQueryPending] = (state, action) => {
@@ -149,4 +184,20 @@ reducer.prototype[actionType.item.markItemUnFavorite] = (state, action) => {
     })).set('currentItem', state.get('currentItem').set('hasFavorite', 0));
 }
 
+
+
+// 更新某个
+reducer.prototype[actionType.item.fetchAndSaveRssItemPending] = (state, action) => {
+    return state.set('fetchingSingle', true);
+}
+reducer.prototype[actionType.item.fetchAndSaveRssItemFulfilled] = (state, action) => {
+    return state.set('fetchingSingle', false);
+}
+reducer.prototype[actionType.item.fetchAndSaveRssItemRejected] = (state, action) => {
+    return state.set('fetchingSingle', false);
+}
+
+reducer.prototype[actionType.item.setSingleChannelMenuVisble] = (state, action) => {
+    return state.set('singleChannelMenuVisble', action.payload);
+}
 

@@ -1,7 +1,11 @@
+import moment from "moment";
 import { getDatabase } from "../db/Database";
+import { getFirstImageUrl } from "../util/StringUitl";
+import { fetchRss } from "./rss";
 
 export const saveItemToDb = async ({ gid, channelId, title, link, description, lastUpdated, content, imageUrl }) => {
     let db = await getDatabase();
+    lastUpdated = moment(lastUpdated).format('yyyy-MM-DD HH:mm:ss');
     let result = await db.transaction(async (tx) => {
         await tx.executeSql(
             'INSERT INTO t_item(gid,channel_id ,title,link,description,published_time,content,image_url,has_read,has_favorite) VALUES (?,?,?,?,?,?,?,?,0,0)',
@@ -9,6 +13,35 @@ export const saveItemToDb = async ({ gid, channelId, title, link, description, l
         );
     });
 }
+
+
+export const saveToDb = async (item, channelId) => {
+    let description = item.description;
+    let content = item.content;
+    if (!content) {
+        content = item.description;
+    }
+    if (!description) {
+        description = item.content;
+    }
+    if (description) {
+        description = description.replace(/<[^>]+>/g, '').substr(0, 300);
+    }
+    // 查找第一张图片
+    let imageUrl = getFirstImageUrl(content);
+
+    await saveItemToDb({
+        gid: item.id,
+        channelId: channelId,
+        title: item.title,
+        link: item.links[0].url,
+        description: description,
+        lastUpdated: item.published,
+        content: content,
+        imageUrl: imageUrl
+    });
+}
+
 
 export const existsByGid = async (gid, channelId) => {
     let db = await getDatabase();
@@ -67,7 +100,7 @@ export const pageQuery = async (page, size, channelId) => {
     let totalNumber = totalNumberResult[0].rows.item(0).totalNumber;
 
     // 再查询当前页的数据
-    let listSql = `SELECT * FROM t_item WHERE channel_id = ${channelId} ORDER BY id DESC limit ${size} offset ${(page - 1) * size}`;
+    let listSql = `SELECT * FROM t_item WHERE channel_id = ${channelId} ORDER BY published_time DESC limit ${size} offset ${(page - 1) * size}`;
 
     let pageResult = await db.executeSql(listSql);
     return pageQueryResult(totalNumber, pageResult);
@@ -83,7 +116,7 @@ export const pageQueryForFavorite = async (page, size) => {
     let totalNumber = totalNumberResult[0].rows.item(0).totalNumber;
 
     // 再查询当前页的数据
-    let listSql = `SELECT * FROM t_item WHERE has_favorite = 1 ORDER BY id DESC limit ${size} offset ${(page - 1) * size}`;
+    let listSql = `SELECT * FROM t_item WHERE has_favorite = 1 ORDER BY published_time DESC limit ${size} offset ${(page - 1) * size}`;
 
     let pageResult = await db.executeSql(listSql);
     return pageQueryResult(totalNumber, pageResult);
@@ -150,4 +183,32 @@ export const markItemFavorite = async (itemId) => {
 export const markItemUnFavorite = async (itemId) => {
     let db = await getDatabase();
     await db.executeSql(`UPDATE t_item SET has_favorite=0 WHERE id= ${itemId}`);
+}
+
+export const fetchAndSaveRssItem = async (channelId, link) => {
+    let rss = await fetchRss(link);
+
+    let items = rss.items;
+    if (items.length > 0) {
+        console.log('更新到文章：' + items.length);
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            // debugger;
+            let exists = true;
+            if (item.id) {
+                exists = await existsByGid(item.id, channelId);
+            } else {
+                let link = item.links[0].url;
+                exists = await existsByLink(link, channelId);
+            }
+            if (!exists) {
+                console.log('存储文章:' + (item.id ? item.id : item.links[0].url));
+                await saveToDb(item, channelId);
+            } else {
+                console.log('文章已存在:' + (item.id ? item.id : item.links[0].url));
+            }
+        }
+    } else {
+        console.log('没有文章更新');
+    }
 }
