@@ -7,6 +7,7 @@ import RenderHtml from 'react-native-render-html';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useWindowDimensions } from 'react-native';
 import moment from 'moment';
+import * as eva from '@eva-design/eva';
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
@@ -99,6 +100,22 @@ const ItemDetailScreen = (props) => {
         }
     }
 
+    let tagsStyles = {
+        body: {
+            whiteSpace: 'normal',
+            lineHeight: '1.5em'
+        }
+    };
+    if (props.setting.get('isNight')) {
+        tagsStyles = {
+            body: {
+                whiteSpace: 'normal',
+                color: 'white',
+                lineHeight: '1.5em'
+            }
+        }
+    }
+
 
     return (
         <Layout style={styles.container} level='1'>
@@ -143,6 +160,10 @@ const ItemDetailScreen = (props) => {
                             html: props.item.get('currentItem').get('content')
                         }}
                         ignoredDomTags={['iframe']}
+                        defaultTextProps={{
+                            selectable: true,
+                        }}
+                        tagsStyles={tagsStyles}
                     />
                 </ScrollView>
             }
@@ -160,8 +181,8 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => {
-    const { item, channel } = state
-    return { item, channel }
+    const { item, channel, setting } = state
+    return { item, channel, setting }
 };
 
 export default connect(mapStateToProps)(ItemDetailScreen);
