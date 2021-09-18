@@ -1,4 +1,4 @@
-package com.rss;
+package com.laowei.rss;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;

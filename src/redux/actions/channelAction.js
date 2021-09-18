@@ -1,7 +1,7 @@
 import { getChannelById, saveChannelToDb } from '../../api/channel';
 
 import * as channelApi from '../../api/channel';
-import { existsByGid, existsByLink, fetchAndSaveRssItem, markAllReadByChannelId, saveItemToDb, saveToDb } from '../../api/item';
+import { deleteByChannelId, existsByGid, existsByLink, fetchAndSaveRssItem, markAllReadByChannelId, saveItemToDb, saveToDb } from '../../api/item';
 import { actionType } from '../actions/actionType';
 import { getFirstImageUrl } from '../../util/StringUitl';
 import { fetchRss } from '../../api/rss';
@@ -169,4 +169,31 @@ const fetchAllChannel = async () => {
             await fetchAndSaveRssItem(channel.id, channel.link);
         }
     }
+}
+
+
+export function setOperateModalVisble(visble) {
+    return {
+        type: actionType.channel.setOperateModalVisble,
+        payload: visble
+    }
+}
+
+
+export function unSubscript(channelId) {
+    return function (dispatch) {
+        doUnSubscript(channelId).then(() => {
+
+        }, error => {
+
+        });
+    }
+}
+
+const doUnSubscript = async (channelId) => {
+    // 先删除文章
+    await deleteByChannelId(channelId);
+
+    // 再删除订单
+    await channelApi.deleteById(channelId);
 }

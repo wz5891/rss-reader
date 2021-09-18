@@ -103,7 +103,6 @@ const ItemDetailScreen = (props) => {
     let tagsStyles = {
         body: {
             whiteSpace: 'normal',
-            lineHeight: '1.5em'
         }
     };
     if (props.setting.get('isNight')) {
@@ -111,10 +110,16 @@ const ItemDetailScreen = (props) => {
             body: {
                 whiteSpace: 'normal',
                 color: 'white',
-                lineHeight: '1.5em'
             }
         }
     }
+
+    const renderersProps = {
+        img: {
+            enableExperimentalPercentWidth: true
+        }
+    };
+
 
 
     return (
@@ -164,6 +169,7 @@ const ItemDetailScreen = (props) => {
                             selectable: true,
                         }}
                         tagsStyles={tagsStyles}
+                        renderersProps={renderersProps}
                     />
                 </ScrollView>
             }

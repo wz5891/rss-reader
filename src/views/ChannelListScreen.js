@@ -3,8 +3,10 @@ import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import { pageQuery, refresh, setCurrentChannelId } from '../redux/actions/channelAction';
+import { fetchAllChannelRss, pageQuery, refresh, setCurrentChannelId, setOperateModalVisble } from '../redux/actions/channelAction';
+import { setCurrentItem } from '../redux/actions/itemAction';
 import AddChannelScreen from './AddChannelScreen';
+import ChannelOperateModal from './ChannelOperateModal';
 
 const ChannelListScreen = (props) => {
     useEffect(() => {
@@ -16,7 +18,13 @@ const ChannelListScreen = (props) => {
         return <TouchableWithoutFeedback onPress={() => {
             props.dispatch(setCurrentChannelId(id));
             props.navigation.navigate('ItemListScreen');
-        }}>
+        }}
+            onLongPress={() => {
+                props.dispatch(setCurrentChannelId(id));
+                props.dispatch(setCurrentItem(id));
+                props.dispatch(setOperateModalVisble(true));
+            }}
+        >
             <Layout style={styles.item}>
                 <Icon style={{
                     width: 24,
@@ -33,10 +41,15 @@ const ChannelListScreen = (props) => {
     }
 
     const onRefresh = () => {
-        let loading = props.channel.get('pageQuery').get('loading');
+        // let loading = props.channel.get('pageQuery').get('loading');
+        // if (!loading) {
+        //     let pageSize = props.channel.get('pageQuery').get('pageSize');
+        //     props.dispatch(refresh(pageSize));
+        // }
+
+        let loading = props.channel.get('fetchAll').get('loading');
         if (!loading) {
-            let pageSize = props.channel.get('pageQuery').get('pageSize');
-            props.dispatch(refresh(pageSize));
+            props.dispatch(fetchAllChannelRss(props.channel.get('pageQuery').get('pageSize')));
         }
     }
     const onEndReached = () => {
@@ -104,6 +117,7 @@ const ChannelListScreen = (props) => {
                 showsVerticalScrollIndicator={false}
             />
             <AddChannelScreen />
+            <ChannelOperateModal />
         </Layout>
     );
 }

@@ -35,7 +35,7 @@ export const actionType = {
         fetchAllChannelRejected: `CHANNEL_FETCH_ALL${ActionType.Rejected}`,
 
 
-
+        setOperateModalVisble: 'SET_CHANNEL_OPERATE_MODAL_VISBLE',
     },
     item: {
         setItemList: 'SET_ITEM_LIST',
@@ -59,7 +59,7 @@ export const actionType = {
         markItemUnFavorite: 'ITEM_MARK_ITEM_UN_FAVORITE',
         markItemFavorite: 'ITEM_MARK_ITEM_FAVORITE',
 
-        setOperateModalVisble: 'SET_OPERATE_MODAL_VISBLE',
+        setOperateModalVisble: 'SET_ITEM_OPERATE_MODAL_VISBLE',
 
         fetchAndSaveRssItemPending: `ITEM_FETCH_AND_SAVE_RSS${ActionType.Pending}`,
         fetchAndSaveRssItemFulfilled: `ITEM_FETCH_AND_SAVE_RSS${ActionType.Fulfilled}`,

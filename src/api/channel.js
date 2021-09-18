@@ -96,3 +96,10 @@ export const getAllChannel = async () => {
     }
     return list;
 }
+
+
+
+export const deleteById = async (id) => {
+    let db = await getDatabase();
+    await db.executeSql(`DELETE FROM t_channel WHERE id= ${id}`);
+}

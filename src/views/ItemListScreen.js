@@ -189,11 +189,16 @@ const ItemListScreen = (props) => {
     }
 
     const onRefresh = () => {
-        let loading = props.item.get('pageQuery').get('loading');
-        if (!loading) {
-            let pageSize = props.item.get('pageQuery').get('pageSize');
-            let channelId = props.channel.get('currentChannelId');
-            props.dispatch(refresh(pageSize, channelId));
+        // let loading = props.item.get('pageQuery').get('loading');
+        // if (!loading) {
+        //     let pageSize = props.item.get('pageQuery').get('pageSize');
+        //     let channelId = props.channel.get('currentChannelId');
+        //     props.dispatch(refresh(pageSize, channelId));
+        // }
+
+        let fetchingSingle = props.item.get('fetchingSingle');
+        if (!fetchingSingle) {
+            freshRss();
         }
     }
     const onEndReached = () => {

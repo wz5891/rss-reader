@@ -9,7 +9,7 @@ export const saveItemToDb = async ({ gid, channelId, title, link, description, l
     let result = await db.transaction(async (tx) => {
         await tx.executeSql(
             'INSERT INTO t_item(gid,channel_id ,title,link,description,published_time,content,image_url,has_read,has_favorite) VALUES (?,?,?,?,?,?,?,?,0,0)',
-            [gid, channelId, title, link, description, lastUpdated, content, imageUrl],
+            [gid, channelId, title.trim(), link, description.trim(), lastUpdated, content, imageUrl],
         );
     });
 }
@@ -211,4 +211,10 @@ export const fetchAndSaveRssItem = async (channelId, link) => {
     } else {
         console.log('没有文章更新');
     }
+}
+
+
+export const deleteByChannelId = async (channelId) => {
+    let db = await getDatabase();
+    await db.executeSql(`DELETE FROM t_item WHERE channel_id= ${channelId}`);
 }
