@@ -14,6 +14,9 @@ import HomeScreen from './src/views/HomeScreen';
 import ItemListScreen from './src/views/ItemListScreen';
 import ItemDetailScreen from './src/views/ItemDetailScreen';
 import { StatusBar } from 'react-native';
+import codePush from "react-native-code-push";
+
+const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 const Stack = createStackNavigator();
 const StackNavigator = () => {
@@ -61,4 +64,4 @@ const mapStateToProps = (state) => {
   return { setting }
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(codePush(App));

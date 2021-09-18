@@ -22,6 +22,7 @@
     "moment": "^2.29.1",
     "react": "17.0.2",
     "react-native": "0.65.1",
+    "react-native-code-push": "^7.0.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-localize": "^2.1.4",
     "react-native-render-html": "^6.1.0",
