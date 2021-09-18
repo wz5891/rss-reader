@@ -16,7 +16,7 @@ import ItemDetailScreen from './src/views/ItemDetailScreen';
 import { StatusBar } from 'react-native';
 import codePush from "react-native-code-push";
 
-const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_START };
 
 const Stack = createStackNavigator();
 const StackNavigator = () => {
