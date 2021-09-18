@@ -183,9 +183,17 @@ export function setOperateModalVisble(visble) {
 export function unSubscript(channelId) {
     return function (dispatch) {
         doUnSubscript(channelId).then(() => {
+            dispatch({
+                type: actionType.channel.setOperateModalVisble,
+                payload: false
+            });
 
+            doRefresh(10, dispatch);
         }, error => {
-
+            dispatch({
+                type: actionType.channel.setOperateModalVisble,
+                payload: false
+            })
         });
     }
 }

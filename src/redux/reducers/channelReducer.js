@@ -5,7 +5,7 @@ import { act } from 'react-test-renderer';
 function initialState() {
     return fromJS({
         channelModalVisble: false,
-
+        operateModalVisble: false,
 
         pageQuery: {
             pageSize: 10,
@@ -166,5 +166,11 @@ reducer.prototype[actionType.channel.fetchAllChannelRejected] = (state, action) 
     return state
         .setIn('fetchAll.loading'.split('.'), false);
 }
+
+
+reducer.prototype[actionType.channel.setOperateModalVisble] = (state, action) => {
+    return state.set('operateModalVisble', action.payload);
+}
+
 
 

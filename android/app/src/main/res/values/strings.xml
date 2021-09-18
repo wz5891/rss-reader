@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My RSSReader</string>
-    <string moduleConfig="true" name="CodePushDeploymentKey">0wsrKHGpMHf39sRaG3ZOH5Ylby48HEzAMBRf3</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">YtGX0_gYG-YRcCVOQMGFsq2h1z1dsuyaqA71v</string>
+
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
 </resources>

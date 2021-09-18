@@ -9,14 +9,15 @@ const ChannelOperateModal = (props) => {
         props.dispatch(setOperateModalVisble(false));
     }
 
-    const Header = (pro) => (
-        <View {...pro}>
-            <Text category='h6'>{props.channel.get('currentItem').get('title')}</Text>
-        </View>
-    );
+    const Header = (pro) => {
+        let currentChannel = props.channel.get('currentChannel');
+        return (<View {...pro}>
+            <Text category='h6'>{props.channel.get('currentChannel').get('title')}</Text>
+        </View>);
+    }
 
-    const unSubscript = () => {
-        let channelId = props.get('currentChannelId');
+    const handleUnSubscript = () => {
+        let channelId = props.channel.get('currentChannelId');
         props.dispatch(unSubscript(channelId));
     }
 
@@ -26,7 +27,7 @@ const ChannelOperateModal = (props) => {
             onBackdropPress={closeModal}
             style={styles.modal} backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
             <Card disabled={false} header={Header}>
-                <TouchableOpacity style={styles.item} onPress={unSubscript}>
+                <TouchableOpacity style={styles.item} onPress={handleUnSubscript}>
                     <Text category="s1">取消订阅</Text>
                 </TouchableOpacity>
             </Card>

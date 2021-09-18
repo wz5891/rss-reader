@@ -1,7 +1,7 @@
-import { Layout, Text, Icon, Spinner } from '@ui-kitten/components';
+import { Layout, Text, Icon, Spinner, Modal, Card } from '@ui-kitten/components';
 import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 import React, { useEffect } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchAllChannelRss, pageQuery, refresh, setCurrentChannelId, setOperateModalVisble } from '../redux/actions/channelAction';
 import { setCurrentItem } from '../redux/actions/itemAction';

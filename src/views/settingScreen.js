@@ -27,7 +27,7 @@ function SettingScreen(props) {
                 <Layout style={styles.item}>
                     <Text category="p1">作者</Text>
 
-                    <Text category="p1">老维</Text>
+                    <Text category="p1">LaoWei</Text>
                 </Layout>
                 <Layout style={styles.item}>
                     <Text category="p1">版本号</Text>
