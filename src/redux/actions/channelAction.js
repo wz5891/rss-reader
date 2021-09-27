@@ -92,6 +92,18 @@ export function pageQuery(page, size) {
     }
 }
 
+export function initList(size) {
+    return function (dispatch) {
+        doInitList(size, dispatch).then(() => { });
+    }
+}
+
+const doInitList = async (size, dispath) => {
+    await doRefresh(size, dispath);
+
+    await doFetchAllChannelRss(size, dispath);
+}
+
 export function refresh(size) {
     return function (dispatch) {
         doRefresh(size, dispatch).then(() => { });
@@ -99,12 +111,14 @@ export function refresh(size) {
 }
 
 const doRefresh = async (size, dispatch) => {
-    dispatch({
-        type: actionType.channel.refreshPending,
-        payload: null
-    });
+    try {
+        dispatch({
+            type: actionType.channel.refreshPending,
+            payload: null
+        });
 
-    channelApi.pageQuery(1, size).then(data => {
+        let data = await channelApi.pageQuery(1, size);
+
         dispatch({
             type: actionType.channel.refreshFulfilled,
             payload: {
@@ -113,12 +127,12 @@ const doRefresh = async (size, dispatch) => {
                 page: 1
             }
         });
-    }, error => {
+    } catch (error) {
         dispatch({
             type: actionType.channel.refreshRejected,
             payload: error.message
         });
-    });
+    }
 }
 
 export function setCurrentChannelId(channelId) {
@@ -141,22 +155,28 @@ export function setCurrentChannel(channelId) {
 
 export function fetchAllChannelRss(size) {
     return function (dispatch) {
+        doFetchAllChannelRss(size, dispatch).then(() => { });
+    }
+}
+
+export const doFetchAllChannelRss = async (size, dispatch) => {
+    try {
         dispatch({
             type: actionType.channel.fetchAllChannelPending,
             payload: null
         });
-        fetchAllChannel().then(() => {
-            dispatch({
-                type: actionType.channel.fetchAllChannelFulfilled,
-                payload: null
-            });
+        await fetchAllChannel();
 
-            doRefresh(size, dispatch).then(() => { });
-        }, error => {
-            dispatch({
-                type: actionType.channel.fetchAllChannelRejected,
-                payload: null
-            });
+        dispatch({
+            type: actionType.channel.fetchAllChannelFulfilled,
+            payload: null
+        });
+
+        await doRefresh(size, dispatch);
+    } catch (error) {
+        dispatch({
+            type: actionType.channel.fetchAllChannelRejected,
+            payload: null
         });
     }
 }

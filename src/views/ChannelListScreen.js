@@ -3,14 +3,18 @@ import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchAllChannelRss, pageQuery, refresh, setCurrentChannelId, setOperateModalVisble } from '../redux/actions/channelAction';
+import { fetchAllChannelRss, initList, pageQuery, refresh, setCurrentChannelId, setOperateModalVisble } from '../redux/actions/channelAction';
 import { setCurrentItem } from '../redux/actions/itemAction';
 import AddChannelScreen from './AddChannelScreen';
 import ChannelOperateModal from './ChannelOperateModal';
 
 const ChannelListScreen = (props) => {
     useEffect(() => {
-        onRefresh();
+        let loading = props.channel.get('pageQuery').get('loading');
+        if (!loading) {
+            let pageSize = props.channel.get('pageQuery').get('pageSize');
+            props.dispatch(initList(pageSize));
+        }
     }, []);
 
     const renderItem = ({ item }) => {
