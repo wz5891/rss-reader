@@ -89,7 +89,7 @@ export function markAllRead(channelId) {
             })
 
             dispatch({
-                type: actionType.channel.setSingleChannelMenuVisble,
+                type: actionType.item.setSingleChannelMenuVisble,
                 payload: false
             })
         });
@@ -106,7 +106,7 @@ export function markAllUnRead(channelId) {
             })
 
             dispatch({
-                type: actionType.channel.setSingleChannelMenuVisble,
+                type: actionType.item.setSingleChannelMenuVisble,
                 payload: false
             })
         });

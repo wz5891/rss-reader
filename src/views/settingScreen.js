@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native'
 import { Layout, Text, Toggle } from '@ui-kitten/components';
 import { connect } from 'react-redux';
 import { setIsNight } from '../redux/actions/settingAction';
+import VersionNumber from 'react-native-version-number';
 
 function SettingScreen(props) {
     const onIsNightChange = (isChecked) => {
@@ -30,9 +31,9 @@ function SettingScreen(props) {
                     <Text category="p1">LaoWei</Text>
                 </Layout>
                 <Layout style={styles.item}>
-                    <Text category="p1">版本号</Text>
+                    <Text category="p1">版本</Text>
 
-                    <Text category="p1">1.0</Text>
+                    <Text category="p1">{VersionNumber.appVersion}</Text>
                 </Layout>
             </Layout>
         </Layout>
