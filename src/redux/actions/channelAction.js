@@ -21,8 +21,6 @@ export function setLeftDrawerVisble(visble) {
 }
 
 
-
-
 export function addChannel(url) {
     return function (dispatch) {
         saveChannel(url, dispatch).then(() => {
@@ -74,14 +72,14 @@ const saveChannel = async (url, dispatch) => {
 }
 
 
-export function pageQuery(page, size) {
+export function pageQuery(page, size, categoryId) {
     return function (dispatch) {
         dispatch({
             type: actionType.channel.pageQueryPending,
             payload: null
         });
 
-        channelApi.pageQuery(page, size).then(data => {
+        channelApi.pageQuery(page, size, categoryId).then(data => {
             dispatch({
                 type: actionType.channel.pageQueryFulfilled,
                 payload: {
@@ -99,32 +97,32 @@ export function pageQuery(page, size) {
     }
 }
 
-export function initList(size) {
+export function initList(size, categoryId) {
     return function (dispatch) {
-        doInitList(size, dispatch).then(() => { });
+        doInitList(size, categoryId, dispatch).then(() => { });
     }
 }
 
-const doInitList = async (size, dispath) => {
-    await doRefresh(size, dispath);
+const doInitList = async (size, categoryId, dispath) => {
+    await doRefresh(size, categoryId, dispath);
 
-    await doFetchAllChannelRss(size, dispath);
+    await doFetchAllChannelRss(size, categoryId, dispath);
 }
 
-export function refresh(size) {
+export function refresh(size, categoryId) {
     return function (dispatch) {
-        doRefresh(size, dispatch).then(() => { });
+        doRefresh(size, categoryId, dispatch).then(() => { });
     }
 }
 
-const doRefresh = async (size, dispatch) => {
+const doRefresh = async (size, categoryId, dispatch) => {
     try {
         dispatch({
             type: actionType.channel.refreshPending,
             payload: null
         });
 
-        let data = await channelApi.pageQuery(1, size);
+        let data = await channelApi.pageQuery(1, size, categoryId);
 
         dispatch({
             type: actionType.channel.refreshFulfilled,
@@ -160,26 +158,26 @@ export function setCurrentChannel(channelId) {
     }
 }
 
-export function fetchAllChannelRss(size) {
+export function fetchAllChannelRss(size, categoryId) {
     return function (dispatch) {
-        doFetchAllChannelRss(size, dispatch).then(() => { });
+        doFetchAllChannelRss(size, categoryId, dispatch).then(() => { });
     }
 }
 
-export const doFetchAllChannelRss = async (size, dispatch) => {
+export const doFetchAllChannelRss = async (size, categoryId, dispatch) => {
     try {
         dispatch({
             type: actionType.channel.fetchAllChannelPending,
             payload: null
         });
-        await fetchAllChannel();
+        await fetchAllChannel(categoryId);
 
         dispatch({
             type: actionType.channel.fetchAllChannelFulfilled,
             payload: null
         });
 
-        await doRefresh(size, dispatch);
+        await doRefresh(size, categoryId, dispatch);
     } catch (error) {
         dispatch({
             type: actionType.channel.fetchAllChannelRejected,
@@ -188,8 +186,8 @@ export const doFetchAllChannelRss = async (size, dispatch) => {
     }
 }
 
-const fetchAllChannel = async () => {
-    let list = await channelApi.getAllChannel();
+const fetchAllChannel = async (categoryId) => {
+    let list = await channelApi.getAllChannel(categoryId);
     if (list.length > 0) {
         for (let i = 0; i < list.length; i++) {
             let channel = await getChannelById(list[i].id);

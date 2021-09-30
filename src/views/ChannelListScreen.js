@@ -13,9 +13,25 @@ const ChannelListScreen = (props) => {
         let loading = props.channel.get('pageQuery').get('loading');
         if (!loading) {
             let pageSize = props.channel.get('pageQuery').get('pageSize');
-            props.dispatch(initList(pageSize));
+            props.dispatch(initList(pageSize, getCurrentCategory().id));
         }
     }, []);
+
+
+    const getCurrentCategory = () => {
+        let category = props.category.get('currentCategory');
+        if (category) {
+            return {
+                id: category.get('id'),
+                title: category.get('title')
+            };
+        } else {
+            return {
+                id: 1,
+                title: '默认分组'
+            }
+        }
+    }
 
     const renderItem = ({ item }) => {
         let id = item.get('id');
@@ -53,7 +69,10 @@ const ChannelListScreen = (props) => {
 
         let loading = props.channel.get('fetchAll').get('loading');
         if (!loading) {
-            props.dispatch(fetchAllChannelRss(props.channel.get('pageQuery').get('pageSize')));
+            props.dispatch(fetchAllChannelRss(
+                props.channel.get('pageQuery').get('pageSize'),
+                getCurrentCategory().id)
+            );
         }
     }
     const onEndReached = () => {
@@ -63,7 +82,11 @@ const ChannelListScreen = (props) => {
             if (hasMore) {
                 let pageIndex = props.channel.get('pageQuery').get('pageIndex');
                 let pageSize = props.channel.get('pageQuery').get('pageSize');
-                props.dispatch(pageQuery(pageIndex, pageSize));
+                props.dispatch(pageQuery(
+                    pageIndex,
+                    pageSize,
+                    getCurrentCategory().id
+                ));
             }
         }
     }
@@ -116,6 +139,13 @@ const ChannelListScreen = (props) => {
                 refreshing={props.channel.get('pageQuery').get('refreshing')}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.1}
+                ListHeaderComponent={() => {
+                    return <Text category="p2" style={{
+                        textAlign: 'right'
+                    }}>
+                        {props.category.get('currentCategory').get('title')}
+                    </Text>
+                }}
                 ListFooterComponent={ListFooterComponent}
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
@@ -130,7 +160,8 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         display: 'flex',
-        padding: 10
+        padding: 10,
+        paddingTop: 0
     },
     item: {
         flex: 1,
@@ -146,8 +177,8 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => {
-    const { channel } = state
-    return { channel }
+    const { channel, category } = state
+    return { channel, category }
 };
 
 export default connect(mapStateToProps)(ChannelListScreen);

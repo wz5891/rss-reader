@@ -1,9 +1,10 @@
 import { Layout, Text, Icon, Divider } from '@ui-kitten/components'
 import React from 'react'
-import { FlatList, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import * as categoryAction from '../redux/actions/categoryAction';
-import { setLeftDrawerVisble } from '../redux/actions/channelAction';
+import { initList, setLeftDrawerVisble } from '../redux/actions/channelAction';
+import AddCategoryScreen from './AddCategoryScreen';
 
 const MenuIcon = (props) => {
     return <Icon {...props} name='menu-arrow-outline' />
@@ -17,9 +18,14 @@ const CategoryScreen = (props) => {
 
     const renderItem = ({ item }) => {
         let id = item.get('id');
-        return <TouchableWithoutFeedback onPress={() => {
-            // props.dispatch(setCurrentChannelId(id));
-            // props.navigation.navigate('ItemListScreen');
+        return <TouchableOpacity onPress={() => {
+            props.dispatch(categoryAction.setCurrent(id));
+            props.dispatch(setLeftDrawerVisble(false));
+
+            let pageSize = props.channel.get('pageQuery').get('pageSize');
+            props.dispatch(initList(pageSize, id));
+
+
         }}
             onLongPress={() => {
                 // props.dispatch(setCurrentChannelId(id));
@@ -27,10 +33,10 @@ const CategoryScreen = (props) => {
                 // props.dispatch(setOperateModalVisble(true));
             }}
         >
-            <Layout>
-                <Text style={{ flex: 1, marginLeft: 12, }} category="p1">{item.get('title')}</Text>
+            <Layout style={styles.item}>
+                <Text category="s2">{item.get('title')}</Text>
             </Layout>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
     }
 
     return (
@@ -66,23 +72,56 @@ const CategoryScreen = (props) => {
                         return item.get('id')
                     }}
                     showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
+                    showsVerticalScrollIndicator={true}
                 />
             </Layout>
 
             <Divider />
             <Layout style={{
                 flex: 1,
-                marginTop: 10
+                marginTop: 10,
+                display: 'flex',
+                flexDirection: 'column',
             }}>
-                <Text>新建分组</Text>
+                <TouchableOpacity style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                }}
+                    onPress={() => {
+                        props.dispatch(categoryAction.setAddCategoryModalVisble(true));
+                    }}
+                >
+                    <Icon style={{
+                        width: 24,
+                        height: 24,
+                    }} name='folder-outline' fill='#8F9BB3' />
+                    <Text style={{
+                        flex: 1,
+                        marginLeft: 5
+                    }}>新建分组</Text>
+                </TouchableOpacity>
             </Layout>
 
+            <AddCategoryScreen />
         </Layout>
     )
 }
 
-const styles = StyleSheet.create({})
+
+const styles = StyleSheet.create({
+
+    item: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderBottomColor: '#8F9BB3',
+        borderBottomWidth: 0.3,
+    }
+});
 
 
 

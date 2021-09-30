@@ -7,6 +7,7 @@ export const actionType = {
         setFontSize: 'SET_FONTSIZE',
     },
     category: {
+        setAddCategoryModalVisble: 'SET_ADD_CATEGORY_MODAL_VISBLE',
         addList: 'CATEGORY_ADD_LIST',
 
         setCurrentCategoryId: 'SET_CURRENT_CATEGORY_ID',

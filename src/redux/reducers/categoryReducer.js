@@ -11,8 +11,9 @@ function initialState() {
             errorMsg: ''
         },
 
-        currentCategoryId: undefined,
         currentCategory: {},
+
+        addModalVisble: false,
 
         add: {
             doing: false,
@@ -30,14 +31,19 @@ export default function reducer(state = initialState(), action) {
     }
 }
 
-reducer.prototype[actionType.category.setCurrentCategoryId] = (state, action) => {
-    return state.set('currentCategoryId', action.payload);
-}
-
-
 reducer.prototype[actionType.category.setCurrentCategory] = (state, action) => {
-    return state.set('currentCategory', fromJS(action.payload));
+    let id = action.payload;
+
+    let category = state.get('list').get('dataList').filter(data => data.get('id') == id).first();
+
+    return state.set('currentCategory', fromJS(category));
 }
+
+
+reducer.prototype[actionType.category.setAddCategoryModalVisble] = (state, action) => {
+    return state.set('addModalVisble', action.payload);
+}
+
 
 
 reducer.prototype[actionType.category.categoryAddPending] = (state, action) => {
@@ -48,7 +54,7 @@ reducer.prototype[actionType.category.categoryAddPending] = (state, action) => {
 reducer.prototype[actionType.category.categoryAddFulfilled] = (state, action) => {
     return state.setIn('add.doing'.split('.'), false)
         .setIn('add.errorMsg'.split('.'), '')
-        .updateIn('list.dataList'.split('.'), list => list.concat(fromJS(action.payload)));
+        .updateIn('list.dataList'.split('.'), list => list.concat(fromJS([action.payload])));
 }
 
 reducer.prototype[actionType.category.categoryAddRejected] = (state, action) => {

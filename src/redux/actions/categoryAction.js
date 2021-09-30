@@ -3,7 +3,15 @@ import * as categoryApi from '../../api/category';
 import { actionType } from './actionType';
 
 
-export function setCurrentChannel(channelId) {
+export function setAddCategoryModalVisble(visble) {
+    return {
+        type: actionType.category.setAddCategoryModalVisble,
+        payload: visble
+    }
+}
+
+
+export function setCurrent(channelId) {
     return {
         type: actionType.category.setCurrentCategory,
         payload: channelId
@@ -24,10 +32,15 @@ export function addCategory(title) {
                     title: title
                 }
             });
+
+            dispatch({
+                type: actionType.category.setAddCategoryModalVisble,
+                payload: false
+            });
         }, error => {
             dispatch({
-                type: actionType.channel.channelAddRejected,
-                payload: e.message
+                type: actionType.category.categoryAddRejected,
+                payload: error.message
             });
         });
     }
