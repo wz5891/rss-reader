@@ -6,6 +6,20 @@ export const actionType = {
         setIsNight: 'SET_ISNIGHT',
         setFontSize: 'SET_FONTSIZE',
     },
+    category: {
+        addList: 'CATEGORY_ADD_LIST',
+
+        setCurrentCategoryId: 'SET_CURRENT_CATEGORY_ID',
+        setCurrentCategory: 'SET_CURRENT_CATEGORY',
+
+        categoryAddPending: `CATEGORY_ADD${ActionType.Pending}`,
+        categoryAddFulfilled: `CATEGORY_ADD${ActionType.Fulfilled}`,
+        categoryAddRejected: `CATEGORY_ADD${ActionType.Rejected}`,
+
+        listPending: `CATEGORY_LIST${ActionType.Pending}`,
+        listFulfilled: `CATEGORY_LIST${ActionType.Fulfilled}`,
+        listRejected: `CATEGORY_LIST${ActionType.Rejected}`,
+    },
     channel: {
         setAddChannelModalVisble: 'SET_ADD_CHANNEL_MODAL_VISBLE',
         setLeftDrawerVisble: 'SET_CHANNEL_DRAWER_VISBLE',

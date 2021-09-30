@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "upgrades": {
     "to_v1": [
       "DROP TABLE IF EXISTS t_config;",
@@ -8,6 +8,12 @@
       "CREATE TABLE t_channel (id INTEGER NOT NULL UNIQUE,title TEXT,link TEXT,description TEXT,updated_time datetime,image_url TEXT,PRIMARY KEY(id AUTOINCREMENT));",
       "DROP TABLE IF EXISTS t_item;",
       "CREATE TABLE t_item ( id INTEGER NOT NULL UNIQUE, gid TEXT,title TEXT, link TEXT, description TEXT, channel_id INTEGER, image_url TEXT, content TEXT, published_time datetime,has_read INGEGER default 0,has_favorite INGEGER  default 0, PRIMARY KEY( id AUTOINCREMENT) );"
+    ],
+    "to_v2": [
+      "DROP TABLE IF EXISTS t_category;",
+      "CREATE TABLE t_category (id INTEGER NOT NULL UNIQUE,title TEXT,PRIMARY KEY(id AUTOINCREMENT));",
+      "INSERT INTO t_category (id, title) VALUES (1, 'RSS Group');",
+      "ALTER TABLE t_channel ADD COLUMN category_id INTEGER NOT NULL DEFAULT 1;"
     ]
   }
 }

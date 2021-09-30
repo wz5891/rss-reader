@@ -47,14 +47,6 @@ const ChannelListHeader = (props) => {
         outputRange: ['0deg', '180deg'],
     });
 
-    const renderLeftActions = () => (
-        <React.Fragment>
-            <TopNavigationAction icon={MenuIcon} onPress={() => {
-                let leftDrawerVisble = props.channel.get('leftDrawerVisble');
-                props.dispatch(setLeftDrawerVisble(!leftDrawerVisble));
-            }} />
-        </React.Fragment>
-    );
 
 
     const renderRightActions = () => (
@@ -81,8 +73,7 @@ const ChannelListHeader = (props) => {
             }} />
 
             <TopNavigationAction icon={MenuIcon} onPress={() => {
-                let leftDrawerVisble = props.channel.get('leftDrawerVisble');
-                props.dispatch(setLeftDrawerVisble(!leftDrawerVisble));
+                props.dispatch(setLeftDrawerVisble(true));
             }} />
         </React.Fragment>
     );
