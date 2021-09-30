@@ -7,6 +7,8 @@ function initialState() {
         channelModalVisble: false,
         operateModalVisble: false,
 
+        leftDrawerVisble: false,
+
         pageQuery: {
             pageSize: 10,
             pageIndex: 1,
@@ -46,6 +48,11 @@ export default function reducer(state = initialState(), action) {
 reducer.prototype[actionType.channel.setAddChannelModalVisble] = (state, action) => {
     return state.set('channelModalVisble', action.payload);
 }
+
+reducer.prototype[actionType.channel.setLeftDrawerVisble] = (state, action) => {
+    return state.set('leftDrawerVisble', action.payload);
+}
+
 
 
 reducer.prototype[actionType.channel.setCurrentChannelId] = (state, action) => {

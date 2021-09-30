@@ -8,6 +8,7 @@ export const actionType = {
     },
     channel: {
         setAddChannelModalVisble: 'SET_ADD_CHANNEL_MODAL_VISBLE',
+        setLeftDrawerVisble: 'SET_CHANNEL_DRAWER_VISBLE',
 
 
         setCurrentChannelId: 'SET_CURRENT_CHANNEL_ID',

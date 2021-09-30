@@ -13,6 +13,13 @@ export function setAddChannelModalVisble(visble) {
     }
 }
 
+export function setLeftDrawerVisble(visble) {
+    return {
+        type: actionType.channel.setLeftDrawerVisble,
+        payload: visble
+    }
+}
+
 
 
 
