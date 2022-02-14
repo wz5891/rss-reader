@@ -1,5 +1,21 @@
+官网
+https://laoweitech.github.io/rss/
+
+## 安装
+```
+yarn install
+```
+
+## 运行
+```
+run-android
+```
+
+
 ## 打包
+```
 gradlew assembleRelease
+```
 
 ## 发布
 ```
